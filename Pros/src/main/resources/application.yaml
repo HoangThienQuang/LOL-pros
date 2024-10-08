@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://34.142.181.234:1433;databaseName=master;encrypt=true;trustServerCertificate=true;
+    username: sa
+    password: Admin123!
+    platform: mssql
+  jpa:
+    show-sql: true
