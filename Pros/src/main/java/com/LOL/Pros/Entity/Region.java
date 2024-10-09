@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Team {
+public class Region {
     @Id
-    private String teamName;
-    private String region;
-    private String playedTournament;
+    private String regionName;
+    private String regionTournament;
+
 }

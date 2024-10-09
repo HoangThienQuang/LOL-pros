@@ -6,6 +6,4 @@ spring:
     password: Admin123!
     platform: mssql
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true

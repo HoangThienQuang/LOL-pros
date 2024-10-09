@@ -8,23 +8,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Player {
+public class Tournament {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String playerId;
-
-    private String inGameName;
-    private String playerName;
-    private LocalDate dob;
+    private String tournamentId;
+    private String tournamentName;
+    private String competitionPlace;
+    private Date startDate;
+    private Date endDate;
+    private int numberOfParticipateTeam;
     private String region;
-    private String role;
-    private String currentTeam;
-    //private Set<String> playedTeam;
 }
