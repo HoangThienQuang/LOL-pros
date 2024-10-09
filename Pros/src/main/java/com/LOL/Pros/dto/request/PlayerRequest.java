@@ -6,18 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PlayerCreationRequest {
+public class PlayerRequest {
     private String inGameName;
     private String playerName;
     private LocalDate dob;
     private String region;
-    private List<String> position;
+    //private Set<String> position;
     private String currentTeam;
-    private List<String> playedTeam;
+    //private Set<String> playedTeam;
 }

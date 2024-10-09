@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,7 +24,7 @@ public class Player {
     private String playerName;
     private LocalDate dob;
     private String region;
-    private List<String> position;
+    //private Set<String> position;
     private String currentTeam;
-    private List<String> playedTeam;
+    //private Set<String> playedTeam;
 }
