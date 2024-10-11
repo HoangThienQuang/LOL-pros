@@ -1,10 +1,8 @@
 spring:
   datasource:
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://34.142.181.234:1433;databaseName=LoL_Pros;encrypt=true;trustServerCertificate=true;
-    username: sa
-    password: Admin123!
-    platform: mssql
+    url: "jdbc:mysql://localhost:3309/TestLOL"
+    username: root
+    password: root
   jpa:
     hibernate:
       ddl-auto: update

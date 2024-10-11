@@ -13,11 +13,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class PlayerRequest {
-    private String inGameName;
     private String playerName;
-    private LocalDate dob;
-    private String region;
-    //private Set<String> position;
     private String currentTeam;
+    private String note;
     //private Set<String> playedTeam;
 }

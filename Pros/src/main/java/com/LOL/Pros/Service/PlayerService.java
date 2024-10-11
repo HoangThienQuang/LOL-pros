@@ -1,6 +1,8 @@
 package com.LOL.Pros.Service;
 
 import com.LOL.Pros.Entity.Player;
+import com.LOL.Pros.Exception.AppException;
+import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Mapper.PlayerMapper;
 import com.LOL.Pros.Repository.PlayerRepository;
 import com.LOL.Pros.dto.request.PlayerRequest;
@@ -28,5 +30,15 @@ public class PlayerService {
         Player player = playerMapper.toPlayer(request);
         playerRepository.save(player);
         return playerMapper.toPlayerResponse(player);
+    }
+
+    public PlayerResponse getPlayerById(String playerId)
+    {
+        return playerMapper.toPlayerResponse(playerRepository.findById(playerId).orElseThrow(() -> new AppException(ResponseCode.USER_NOT_EXIST)));
+    }
+
+    public PlayerResponse getPlayerByName(String playerName)
+    {
+        return playerMapper.toPlayerResponse(playerRepository.findByPlayerName(playerName).orElseThrow(() -> new AppException(ResponseCode.USER_NOT_EXIST)));
     }
 }

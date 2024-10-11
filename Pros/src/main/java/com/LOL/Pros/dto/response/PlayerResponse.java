@@ -14,12 +14,8 @@ import java.util.Set;
 @Builder
 public class PlayerResponse {
     private String playerId;
-
-    private String inGameName;
-    private String playerName;
-    private LocalDate dob;
-    private String region;
-    //private Set<String> position;
     private String currentTeam;
+    private String playerName;
+    private String note;
     //private Set<String> playedTeam;
 }
