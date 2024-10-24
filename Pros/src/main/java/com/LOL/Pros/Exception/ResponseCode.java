@@ -11,7 +11,7 @@ public enum ResponseCode {
     PLAYER_EXISTED(1001, "Player Existed"),
     TOURNAMENT_NOT_EXIST(1002,"Tournament not exist"),
     REGION_EXISTED(1001,"Region existed"),
-    REGION_NOT_EXISTED(1002,"Region existed"),
+    REGION_NOT_EXISTED(1002,"Region not exist"),
     TEAM_NOT_EXIST(1002,"Team not exist"),
     TOURNAMENT_EXISTED(1001,"Tournament existed"),
     USER_NOT_EXIST(1002,"Player not exist"),

@@ -1,8 +1,10 @@
 package com.LOL.Pros.Entity;
 
+import com.LOL.Pros.Enum.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,12 +21,18 @@ public class Player {
 
     private String ingameName;
     private String playerName;
-    private String dob;
-    private String role;
-    //tạo mối quan hệ hai bảng team và player
-    @ManyToOne //nhiều players có thể chơi cho 1 team
-    @JoinColumn(name = "currentTeam") //tạo cột currentTeam trong bảng player để lưu khóa ngoại của Team
-    private Team currentTeam;
+    private LocalDate dob;
+    private String nationality;
 
-    //private Set<String> playedTeam = new HashSet<>();
+    //lưu Role xuống DB là dạng string
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    //PlayerTeam để quản lý mối quan hệ giữa player và team dựa trên start/end date
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PlayerTeam> playerTeams = new HashSet<>();
+
+
+    @OneToOne(mappedBy = "captain")// Chỉ một player có thể là captain của một team
+    private Team captainedTeam;
 }

@@ -21,74 +21,22 @@ import java.util.*;
 public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
-    @Autowired
-    private TournamentRepository tournamentRepository;
-    @Autowired
-    private TeamRepository teamRepository;
 
     public List<Region> getAllRegion()
     {
         return regionRepository.findAll();
     }
 
-    public RegionResponse createEmptyRegion(RegionRequest request)
-    {
-        Region region = toRegion(request);
-        regionRepository.save(region);
-        return RegionResponse.builder()
-                .regionName(region.getRegionName())
-                .regionTournament(region.getRegionTournament())
-                .teams(region.getTeams())
-                .build();
-    }
-
-    public RegionResponse updateRegion(RegionUpdateRequest request)
-    {
-        Region region = regionRepository.findByRegionName(request.getRegionName()).orElseThrow(()-> new AppException(ResponseCode.REGION_NOT_EXISTED));
-        Set<String> tournamentSet = new HashSet<>(Arrays.asList(request.getTournamentName().split(",")));
-        Set<String> teamsSet = new HashSet<>(Arrays.asList(request.getTeamName().split(",")));
-
-        for (String tournamentName: tournamentSet)
-        {
-            region.getRegionTournament().add(tournamentName);
-        }
-
-        for (String teamName: teamsSet)
-        {
-            region.getTeams().add(teamName);
-        }
-
-        regionRepository.save(region);
-        return RegionResponse.builder()
-                .regionName(region.getRegionName())
-                .regionTournament(region.getRegionTournament())
-                .teams(region.getTeams())
-                .build();
-    }
-
-//    private Region toRegion(RegionRequest request)
-//    {
-//        Region region = new Region();
-//        region.setRegionName(region.getRegionName());
-//        if (Objects.nonNull(request.getRegionName()) && tournamentRepository.existsByTournamentName(request.getRegionName()))
-//        {
-//            Tournament tournament = tournamentRepository.findByTournamentName(region.getRegionName()).orElseThrow(()-> new AppException(ResponseCode.TOURNAMENT_NOT_EXIST));
-//
-//            region.setRegionTournament();
-//        }
-//        return
-//    }
-    private Region toRegion(RegionRequest request)
+    public RegionResponse createRegion(RegionRequest request)
     {
         if (regionRepository.findByRegionName(request.getRegionName()).isPresent())
             throw new AppException(ResponseCode.REGION_EXISTED);
-        Set<String> tournamentSet = new HashSet<>(Arrays.asList(request.getRegionTournament().split(",")));
-        Set<String> teamsSet = new HashSet<>(Arrays.asList(request.getTeams().split(",")));
-
-        return Region.builder()
+        Region region = Region.builder()
                 .regionName(request.getRegionName())
-                .regionTournament(tournamentSet)
-                .teams(teamsSet)
+                .build();
+        regionRepository.save(region);
+        return RegionResponse.builder()
+                .regionName(region.getRegionName())
                 .build();
     }
 }

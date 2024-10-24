@@ -1,18 +1,20 @@
 package com.LOL.Pros.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tournament {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Tournament {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String tournamentId;
@@ -22,6 +24,7 @@ public class Tournament {
     private Date startDate;//YYYY-MM-DD
     private Date endDate;//YYYY-MM-DD
     private int numberOfParticipateTeam;
-    private int season;
-    private String region;
+
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Series> series = new HashSet<>();
 }

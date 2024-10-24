@@ -56,9 +56,6 @@ public class PlayerService {
         return Player.builder()
                 .ingameName(request.getIngameName())
                 .playerName(request.getPlayerName())
-                .dob(request.getDob())
-                .role(request.getRole())
-                .currentTeam(currentTeam)
                 .build();
     }
 
@@ -68,9 +65,6 @@ public class PlayerService {
                 .playerId(player.getPlayerId())
                 .ingameName(player.getIngameName())
                 .playerName(player.getPlayerName())
-                .dob(player.getDob())
-                .role(player.getRole())
-                .currentTeam(player.getCurrentTeam().getTeamName())
                 .build();
     }
 }

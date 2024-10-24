@@ -14,6 +14,4 @@ import java.util.Set;
 @Builder
 public class RegionRequest {
     private String regionName;
-    private String regionTournament;
-    private String teams;
 }

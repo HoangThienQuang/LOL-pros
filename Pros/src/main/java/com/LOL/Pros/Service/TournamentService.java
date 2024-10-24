@@ -18,12 +18,12 @@ public class TournamentService {
     @Autowired
     private TournamentMapper tournamentMapper;
 
-    public TournamentResponse createTournament(TournamentRequest request)
-    {
-        if (tournamentRepository.existsByTournamentName(request.getTournamentName()))
-            throw new AppException(ResponseCode.TOURNAMENT_EXISTED);
-        Tournament tournament = tournamentMapper.toTournament(request);
-        tournamentRepository.save(tournament);
-        return tournamentMapper.toTournamentResponse(tournament);
-    }
+//    public TournamentResponse createTournament(TournamentRequest request)
+//    {
+//        if (tournamentRepository.existsByTournamentName(request.getTournamentName()))
+//            throw new AppException(ResponseCode.TOURNAMENT_EXISTED);
+//        Tournament tournament = tournamentMapper.toTournament(request);
+//        tournamentRepository.save(tournament);
+//        return tournamentMapper.toTournamentResponse(tournament);
+//    }
 }

@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TeamRequest {
     private String teamName;
-    private String region;
+    private String regionName;
 }

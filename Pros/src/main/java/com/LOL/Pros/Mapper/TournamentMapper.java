@@ -9,6 +9,6 @@ import javax.swing.text.html.parser.ContentModel;
 
 @Mapper(componentModel="spring")
 public interface TournamentMapper {
-    Tournament toTournament(TournamentRequest request);
-    TournamentResponse toTournamentResponse(Tournament tournament);
+//    Tournament toTournament(TournamentRequest request);
+//    TournamentResponse toTournamentResponse(Tournament tournament);
 }
