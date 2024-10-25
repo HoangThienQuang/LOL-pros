@@ -14,6 +14,8 @@ import com.LOL.Pros.dto.response.TournamentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TournamentService {
     @Autowired
@@ -22,6 +24,11 @@ public class TournamentService {
     private TournamentMapper tournamentMapper;
     @Autowired
     private DomesticTournamentRepository domesticTournamentRepository;
+
+    public List<Tournament> getAllTournament()
+    {
+        return tournamentRepository.findAll();
+    }
 
     public TournamentResponse createDomesticTournament(DomesticRequest request)
     {
