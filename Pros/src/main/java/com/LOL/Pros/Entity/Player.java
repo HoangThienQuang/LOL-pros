@@ -33,6 +33,6 @@ public class Player {
     private Set<PlayerTeam> playerTeams = new HashSet<>();
 
 
-    @OneToOne(mappedBy = "captain")// Chỉ một player có thể là captain của một team
-    private Team captainedTeam;
+//    @OneToOne(mappedBy = "captain")// Chỉ một player có thể là captain của một team
+//    private Team captainedTeam;
 }

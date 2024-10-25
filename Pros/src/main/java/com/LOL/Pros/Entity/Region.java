@@ -24,7 +24,7 @@ public class Region {
     //mappedBy chỉ định trường trong team là chủ sở hữu mối quan hệ này
     private Set<Team> teams = new HashSet<>();//tập hợp các team thuộc khu vực này
 
-    //tạo mối quan hệ 1-n với tournament
+    //tạo mối quan hệ 1-n với domestic tournament
     @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<DomesticTournament> domesticTournaments = new HashSet<>();
 }

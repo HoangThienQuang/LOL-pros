@@ -18,6 +18,7 @@ public class Trophy {
     private String trophyName;
     private LocalDate dateAwarded;
 
+    //tạo cột tournament_id trong bảng trophy để lưu fk của tournament
     @OneToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;

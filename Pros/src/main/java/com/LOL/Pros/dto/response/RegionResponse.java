@@ -14,6 +14,5 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class RegionResponse {
-    private String regionId;
     private String regionName;
 }
