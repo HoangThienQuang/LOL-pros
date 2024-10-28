@@ -1,16 +1,13 @@
 package com.LOL.Pros.Entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -21,6 +18,13 @@ import java.util.Set;
 public class Region {
     @Id
     private String regionName;
-    private Set<String> regionTournament = new HashSet<>();
-    private Set<String> teams = new HashSet<>();
+
+    // tạo mối quan hệ 1-n với team
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //mappedBy chỉ định trường trong team là chủ sở hữu mối quan hệ này
+    private Set<Team> teams = new HashSet<>();//tập hợp các team thuộc khu vực này
+
+    //tạo mối quan hệ 1-n với domestic tournament
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<DomesticTournament> domesticTournaments = new HashSet<>();
 }

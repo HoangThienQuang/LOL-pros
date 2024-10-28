@@ -17,8 +17,8 @@ public class PlayerResponse {
     private String playerId;
     private String ingameName;
     private String playerName;
-    private String dob;
+    private LocalDate dob;
+    private String nationality;
     private String role;
-    private String currentTeam;
     //private Set<String> playedTeam;
 }

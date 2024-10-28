@@ -2,6 +2,7 @@ package com.LOL.Pros.Service;
 
 import com.LOL.Pros.Entity.Player;
 import com.LOL.Pros.Entity.Team;
+import com.LOL.Pros.Enum.Role;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Mapper.PlayerMapper;
@@ -33,7 +34,9 @@ public class PlayerService {
 
     public PlayerResponse createPlayer(PlayerRequest request)
     {
-        if (playerRepository.findByPlayerName(request.getPlayerName()).isPresent())
+        if (playerRepository.findByPlayerName(request.getPlayerName()).isPresent()
+                && playerRepository.findByIngameName(request.getIngameName()).isPresent()
+        )
             throw new AppException(ResponseCode.PLAYER_EXISTED);
         Player player = toPlayer(request);
         playerRepository.save(player);
@@ -42,23 +45,22 @@ public class PlayerService {
 
     public PlayerResponse getPlayerById(String playerId)
     {
-        return toPlayerResponse(playerRepository.findById(playerId).orElseThrow(() -> new AppException(ResponseCode.USER_NOT_EXIST)));
+        return toPlayerResponse(playerRepository.findById(playerId).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
     }
 
     public PlayerResponse getPlayerByName(String playerName)
     {
-        return toPlayerResponse(playerRepository.findByPlayerName(playerName).orElseThrow(() -> new AppException(ResponseCode.USER_NOT_EXIST)));
+        return toPlayerResponse(playerRepository.findByPlayerName(playerName).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
     }
 
     private Player toPlayer(PlayerRequest request)
     {
-        Team currentTeam = teamRepository.findByTeamName(request.getCurrentTeam()).orElseThrow(()->new AppException(ResponseCode.TEAM_NOT_EXIST));
         return Player.builder()
                 .ingameName(request.getIngameName())
                 .playerName(request.getPlayerName())
                 .dob(request.getDob())
-                .role(request.getRole())
-                .currentTeam(currentTeam)
+                .nationality(request.getNationality())
+                .role(checkRole(request.getRole()))
                 .build();
     }
 
@@ -68,9 +70,22 @@ public class PlayerService {
                 .playerId(player.getPlayerId())
                 .ingameName(player.getIngameName())
                 .playerName(player.getPlayerName())
+                .role(player.getRole().toString())
+                .nationality(player.getNationality())
                 .dob(player.getDob())
-                .role(player.getRole())
-                .currentTeam(player.getCurrentTeam().getTeamName())
                 .build();
+    }
+    private Role checkRole(String role)
+    {
+        if (role ==null)
+            return null;
+        return switch (role.toUpperCase()) {
+            case "TOP" -> Role.TOP;
+            case "JUNG" -> Role.JUNG;
+            case "MID" -> Role.MID;
+            case "AD" -> Role.AD;
+            case "SP" -> Role.SP;
+            default -> null;
+        };
     }
 }

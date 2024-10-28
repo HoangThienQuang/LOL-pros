@@ -16,8 +16,7 @@ import java.util.Set;
 public class PlayerRequest {
     private String ingameName;
     private String playerName;
-    private String dob;
+    private LocalDate dob;
+    private String nationality;
     private String role;
-    private String currentTeam;
-    //private Set<String> playedTeam;
 }

@@ -23,28 +23,18 @@ public class RegionController {
         return ApiResponse.<RegionResponse>builder()
                 .code(100)
                 .message("Create Region success")
-                .data(regionService.createEmptyRegion(request))
+                .data(regionService.createRegion(request))
                 .build();
     }
 
     @GetMapping("/getAll")
     ApiResponse<Object> getAllRegion()
     {
-        List<Region> result = regionService.getAllRegion();
+        List<RegionResponse> result = regionService.getAllRegion();
         return ApiResponse.builder()
                 .code(100)
                 .message("Get all region success")
                 .data(result)
-                .build();
-    }
-
-    @PutMapping("/update")
-    ApiResponse<RegionResponse> updateRegion(@RequestBody RegionUpdateRequest request)
-    {
-        return ApiResponse.<RegionResponse>builder()
-                .code(100)
-                .message("Update region success")
-                .data(regionService.updateRegion(request))
                 .build();
     }
 }
