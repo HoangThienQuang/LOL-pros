@@ -30,7 +30,7 @@ public class RegionController {
     @GetMapping("/getAll")
     ApiResponse<Object> getAllRegion()
     {
-        List<Region> result = regionService.getAllRegion();
+        List<RegionResponse> result = regionService.getAllRegion();
         return ApiResponse.builder()
                 .code(100)
                 .message("Get all region success")

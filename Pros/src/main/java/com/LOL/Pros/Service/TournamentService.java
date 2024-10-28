@@ -7,6 +7,7 @@ import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Mapper.TournamentMapper;
 import com.LOL.Pros.Repository.DomesticTournamentRepository;
+import com.LOL.Pros.Repository.RegionRepository;
 import com.LOL.Pros.Repository.TournamentRepository;
 import com.LOL.Pros.dto.request.DomesticRequest;
 import com.LOL.Pros.dto.request.TournamentRequest;
@@ -24,6 +25,8 @@ public class TournamentService {
     private TournamentMapper tournamentMapper;
     @Autowired
     private DomesticTournamentRepository domesticTournamentRepository;
+    @Autowired
+    private RegionRepository regionRepository;
 
     public List<Tournament> getAllTournament()
     {
@@ -50,6 +53,7 @@ public class TournamentService {
                 .endDate(request.getEndDate())
                 .numberOfParticipateTeam(request.getNumberOfParticipateTeam())
                 .tournamentSeason(request.getSeason())
+                .region(regionRepository.findByRegionName(request.getRegion()).orElseThrow(()-> new AppException(ResponseCode.REGION_NOT_EXISTED)))
                 .build();
     }
 
@@ -62,6 +66,7 @@ public class TournamentService {
                 .endDate(tournament.getEndDate())
                 .numberOfParticipateTeam(tournament.getNumberOfParticipateTeam())
                 .season(tournament.getTournamentSeason())
+                .region(tournament.getRegion())
                 .build();
     }
 }

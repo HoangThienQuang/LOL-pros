@@ -1,5 +1,6 @@
 package com.LOL.Pros.dto.response;
 
+import com.LOL.Pros.Entity.Region;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +19,5 @@ public class TournamentResponse {
     private Date endDate;//YYYY-MM-DD
     private int numberOfParticipateTeam;
     private int season;
+    private Region region;
 }

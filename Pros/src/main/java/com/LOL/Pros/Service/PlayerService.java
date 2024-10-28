@@ -45,12 +45,12 @@ public class PlayerService {
 
     public PlayerResponse getPlayerById(String playerId)
     {
-        return toPlayerResponse(playerRepository.findById(playerId).orElseThrow(() -> new AppException(ResponseCode.USER_NOT_EXIST)));
+        return toPlayerResponse(playerRepository.findById(playerId).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
     }
 
     public PlayerResponse getPlayerByName(String playerName)
     {
-        return toPlayerResponse(playerRepository.findByPlayerName(playerName).orElseThrow(() -> new AppException(ResponseCode.USER_NOT_EXIST)));
+        return toPlayerResponse(playerRepository.findByPlayerName(playerName).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
     }
 
     private Player toPlayer(PlayerRequest request)

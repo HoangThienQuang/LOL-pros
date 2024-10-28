@@ -16,15 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
 
-    public List<Region> getAllRegion()
+    public List<RegionResponse> getAllRegion()
     {
-        return regionRepository.findAll();
+        List<Region> regionResult = regionRepository.findAll();
+        return regionResult.stream().map(region1 -> new RegionResponse(region1.getRegionName(),region1.getTeams(), region1.getDomesticTournaments())).collect(Collectors.toList());
     }
 
     public RegionResponse createRegion(RegionRequest request)
@@ -39,4 +41,6 @@ public class RegionService {
                 .regionName(region.getRegionName())
                 .build();
     }
+
+    //public RegionResponse addTeamToRegion()
 }

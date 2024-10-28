@@ -18,4 +18,5 @@ public class DomesticRequest {
     private Date endDate;//YYYY-MM-DD
     private int numberOfParticipateTeam;
     private int season;
+    private String region;
 }

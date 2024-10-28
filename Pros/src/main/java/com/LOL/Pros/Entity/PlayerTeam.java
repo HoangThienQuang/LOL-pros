@@ -15,8 +15,7 @@ import java.time.LocalDate;
 @Builder
 public class PlayerTeam {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String playerTeamName;
 
     //tạo cột player_id trong bảng playerTeam để liên kết khóa phụ của player
     @ManyToOne
