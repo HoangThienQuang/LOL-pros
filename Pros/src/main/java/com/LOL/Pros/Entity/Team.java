@@ -1,10 +1,7 @@
 package com.LOL.Pros.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 
@@ -13,13 +10,16 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class Team {
     @Id
     private String teamName;
     private Set<String> sponsors;
 
-    //tạo mối quan hệ player với team thông qua playerteam để kiểm soát start/end date
+//    //tạo mối quan hệ player với team thông qua playerteam để kiểm soát start/end date
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<PlayerTeam> playerTeams = new HashSet<>();
 
     //tạo mối quan hệ 1-1, 1 player có thể là captain của 1 team
