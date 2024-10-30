@@ -14,6 +14,8 @@ import com.LOL.Pros.dto.request.Update.TeamUpdateRequest;
 import com.LOL.Pros.dto.response.TeamAddPlayerResponse;
 import com.LOL.Pros.dto.response.TeamResponse;
 import com.LOL.Pros.dto.response.TeamUpdateResponse;
+import com.LOL.Pros.dto.transferDTO.TranferTeamGetAll;
+import com.LOL.Pros.dto.transferDTO.TransferPlayerTeam;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.slf4j.Logger;
@@ -39,9 +41,11 @@ public class TeamService {
     @Autowired
     private PlayerTeamRepository playerTeamRepository;
 
-    public List<Team> getAllTeam()
+    public List<TranferTeamGetAll> getAllTeam()
     {
-        return teamRepository.findAll();
+        //return teamRepository.findAll();
+        List<Team> teams = teamRepository.findAll();
+        return teams.stream().map(this::convertToPlayerTeamDTO).collect(Collectors.toList());
     }
 
     public TeamResponse createTeam(TeamRequest request)
@@ -108,5 +112,24 @@ public class TeamService {
     private Set<String> getTeamPlayers(Set<PlayerTeam> playerTeams)
     {
         return  playerTeams.stream().map(playerTeam -> playerTeam.getPlayer().getPlayerName()).collect(Collectors.toSet());
+    }
+
+    private TranferTeamGetAll convertToPlayerTeamDTO(Team team)
+    {
+        List<TransferPlayerTeam> DTOList = team.getPlayerTeams()
+                .stream().map(playerTeam ->
+                        new TransferPlayerTeam(
+                                playerTeam.getPlayer().getPlayerName(),
+                                playerTeam.getTeam().getTeamName(),
+                                playerTeam.getStartDate(),
+                                playerTeam.getEndDate()))
+                .toList();
+
+        return TranferTeamGetAll.builder()
+                .teamName(team.getTeamName())
+                .sponsors(team.getSponsors())
+                .captainName(team.getCaptain().getPlayerName())
+                .teamPlayer(DTOList)
+                .build();
     }
 }

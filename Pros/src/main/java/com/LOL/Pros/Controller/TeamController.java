@@ -7,6 +7,7 @@ import com.LOL.Pros.dto.request.Update.TeamUpdateRequest;
 import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.TeamResponse;
 import com.LOL.Pros.dto.response.TeamUpdateResponse;
+import com.LOL.Pros.dto.transferDTO.TranferTeamGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class TeamController {
     @GetMapping("/getAll")
     ApiResponse<Object> getAllTeam()
     {
-        List<Team> result = teamService.getAllTeam();
+        List<TranferTeamGetAll> result = teamService.getAllTeam();
         return ApiResponse.builder()
                 .code(100)
                 .message("Get all team success")
