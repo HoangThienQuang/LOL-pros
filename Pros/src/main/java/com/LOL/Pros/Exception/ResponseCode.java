@@ -16,6 +16,7 @@ public enum ResponseCode {
     TEAM_EXISTED(1001,"Team existed"),
     TOURNAMENT_EXISTED(1001,"Tournament existed"),
     PLAYER_NOT_EXIST(1002,"Player not exist"),
+    CAPTAIN_EXISTED(1001,"This player is already be a captain"),
     PASSWORD_INVALID(1003,"Password must be at least 8 characters"),
     USERNAME_INVALID(1003,"User name must be at least 3 characters"),
     ID_INVALID(1003,"Can not find any response match with input ID"),

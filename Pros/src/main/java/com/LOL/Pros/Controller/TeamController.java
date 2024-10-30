@@ -3,6 +3,7 @@ package com.LOL.Pros.Controller;
 import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Service.TeamService;
 import com.LOL.Pros.dto.request.TeamRequest;
+import com.LOL.Pros.dto.request.Update.TeamUpdateCaptainRequest;
 import com.LOL.Pros.dto.request.Update.TeamUpdateRequest;
 import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.TeamResponse;
@@ -47,6 +48,16 @@ public class TeamController {
                 .code(100)
                 .message(request.getTeamName() + " update success")
                 .data(teamService.updateTeam(request))
+                .build();
+    }
+
+    @PostMapping("/update/captain")
+    ApiResponse<TranferTeamGetAll> updateCaptain(@RequestBody TeamUpdateCaptainRequest request)
+    {
+        return ApiResponse.<TranferTeamGetAll>builder()
+                .code(100)
+                .message("Update captain team success")
+                .data(teamService.updateCaptain(request))
                 .build();
     }
 }
