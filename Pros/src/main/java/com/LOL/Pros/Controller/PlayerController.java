@@ -5,6 +5,7 @@ import com.LOL.Pros.Service.PlayerService;
 import com.LOL.Pros.dto.request.PlayerRequest;
 import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.PlayerResponse;
+import com.LOL.Pros.dto.transferDTO.TransferPlayerGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class PlayerController {
     @GetMapping("/allPlayers")
     ApiResponse<Object> getAllPlayer()
     {
-        List<Player> result = playerService.getAllPlayer();
+        List<TransferPlayerGetAll> result = playerService.getAllPlayer();
         return ApiResponse.builder()
                 .code(100)
                 .message("Get all player success")

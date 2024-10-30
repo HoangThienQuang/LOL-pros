@@ -31,7 +31,10 @@ public class Player {
 
     //PlayerTeam để quản lý mối quan hệ giữa player và team dựa trên start/end date
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<PlayerTeam> playerTeams = new HashSet<>();
+    private String currentTeam;
 
 
 //    @OneToOne(mappedBy = "captain")// Chỉ một player có thể là captain của một team

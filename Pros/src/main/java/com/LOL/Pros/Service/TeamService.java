@@ -105,9 +105,15 @@ public class TeamService {
                 PlayerTeam playerTeam = new PlayerTeam();
                 playerTeam.setPlayerTeamName("Contract " + player + " and " + team.getTeamName());
                 playerTeam.setTeam(team);
-                playerTeam.setPlayer(playerRepository.findByIngameName(player).orElseThrow(() -> new AppException(ResponseCode.NOT_IMPLEMENT_EXCEPTION)));
+                Player player1 = playerRepository.findByIngameName(player).orElseThrow(() -> new AppException(ResponseCode.NOT_IMPLEMENT_EXCEPTION));
+                playerTeam.setPlayer(player1);
                 playerTeamRepository.save(playerTeam);
+                //thêm playerTeam vào trong Team
                 team.getPlayerTeams().add(playerTeam);
+                //thêm playerTeam vào trong player
+                player1.getPlayerTeams().add(playerTeam);
+                //set team hien tai cho player
+                player1.setCurrentTeam(team.getTeamName());
                 log.info("Add " + player + " to " + team.getTeamName());
             }
         }
