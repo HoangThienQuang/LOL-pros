@@ -110,3 +110,10 @@
     background-color: white;
     margin: 0 10px;
 }
+/* ----------------------------------- style cho trang player ------------------------------------------*/
+.playerTableHead {
+    background-color: red !important;/*!important gán giá trị cứng cho thuộc tính kể cả nó bị ghi đè*/
+}
+.main-content2 {
+    min-height: 700px;
+}
