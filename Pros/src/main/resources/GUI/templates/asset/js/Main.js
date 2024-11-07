@@ -1,30 +1,56 @@
-document.addEventListener('DOMContentLoaded', function() {//thêm event đợi DOM load xong
-    document.querySelectorAll('nav ul li a').forEach(function(link) {//chọn tất cả các phần tử nav ul li a sau đó thực hiện function link cho từng phần tử
-        link.addEventListener('click', homepageNav);//link thực hiện thao tác lick phần tử và thực thi hàm handleNavClick
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('nav ul li a').forEach(function(link) {
+        link.addEventListener('click', homepageNav);
     });
 
     // Tải trang chủ mặc định khi tải trang
-    fetch('home.html')
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById('main-content').innerHTML = html;
-        });
+    loadPage('home');
 });
 
-function homepageNav(event)
-{
+function homepageNav(event) {
     event.preventDefault();
-    const page = event.target.getAttribute('data-page');
+    const page = event.target.getAttribute('data-main-page');
+    loadPage(page);
+}
+
+function loadPage(page) {
     fetch(page + '.html')
         .then(response => response.text())
         .then(html => {
             document.getElementById('main-content').innerHTML = html;
+            
+            if (page === 'player' || page === 'team' || page === 'region' || page === 'tournament') {
+                setUpSubPage();
+            }
         })
-        .catch(error => 
-        {
+        .catch(error => {
             console.error('Error when loading page: ', error);
+        });
+}
+
+ function setUpSubPage() {
+//     // Đảm bảo rằng các sự kiện click chỉ được gắn một lần duy nhất
+     const subNavLinks = document.querySelectorAll('#navbarNav .nav-link');
+     subNavLinks.forEach(link => {
+        link.removeEventListener('click', handleSubNavClick); // Xóa event listener cũ nếu có
+        link.addEventListener('click', handleSubNavClick);
+    });
+}
+
+function handleSubNavClick(event) {
+    //event.preventDefault();
+    const subPage = event.target.getAttribute('sub-data-page');
+    fetch(subPage + '.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('sub-content').innerHTML = html;
+        })
+        .catch(error)
+        {
+            console.error('Loading subcontent error: ', error);
         }
-        )
+    //console.log(subPage);
+
 }
 //--------------------------------------------------------------------------------
 
