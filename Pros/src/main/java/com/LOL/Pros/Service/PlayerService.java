@@ -1,6 +1,7 @@
 package com.LOL.Pros.Service;
 
 import com.LOL.Pros.Entity.Player;
+import com.LOL.Pros.Entity.PlayerTeam;
 import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Enum.Role;
 import com.LOL.Pros.Exception.AppException;
@@ -11,12 +12,14 @@ import com.LOL.Pros.Repository.TeamRepository;
 import com.LOL.Pros.dto.request.PlayerRequest;
 import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.PlayerResponse;
+import com.LOL.Pros.dto.transferDTO.TransferPlayerGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -27,9 +30,11 @@ public class PlayerService {
     @Autowired
     private TeamRepository teamRepository;
 
-    public List<Player> getAllPlayer()
+    public List<TransferPlayerGetAll> getAllPlayer()
     {
-        return playerRepository.findAll();
+        List<Player> players = playerRepository.findAll();
+        return players.stream().map(this::toTransferPlayerGetAll).collect(Collectors.toList());
+        //return playerRepository.findAll();
     }
 
     public PlayerResponse createPlayer(PlayerRequest request)
@@ -87,5 +92,17 @@ public class PlayerService {
             case "SP" -> Role.SP;
             default -> null;
         };
+    }
+
+    private TransferPlayerGetAll toTransferPlayerGetAll(Player player)
+    {
+        return TransferPlayerGetAll.builder()
+                .playerName(player.getPlayerName())
+                .ingameName(player.getIngameName())
+                .dob(player.getDob())
+                .nationality(player.getNationality())
+                .role(player.getRole())
+                .team(player.getCurrentTeam())
+                .build();
     }
 }
