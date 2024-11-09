@@ -79,10 +79,27 @@ function loadAllPlayer()
         { "ingameName": "Uzi", "National": "China", "Team": "RNG" },
         { "ingameName": "Caps", "National": "Denmark", "Team": "G2" },
         { "ingameName": "Perkz", "National": "Croatia", "Team": "Cloud9" },
+        { "ingameName": "Uzi", "National": "China", "Team": "RNG" },
+        { "ingameName": "Caps", "National": "Denmark", "Team": "G2" },
+        { "ingameName": "Perkz", "National": "Croatia", "Team": "Cloud9" },
+        { "ingameName": "Uzi", "National": "China", "Team": "RNG" },
+        { "ingameName": "Caps", "National": "Denmark", "Team": "G2" },
+        { "ingameName": "Perkz", "National": "Croatia", "Team": "Cloud9" },
+        { "ingameName": "Perkz", "National": "Croatia", "Team": "Cloud9" },
+        { "ingameName": "Uzi", "National": "China", "Team": "RNG" },
+        { "ingameName": "Caps", "National": "Denmark", "Team": "G2" },
+        { "ingameName": "Perkz", "National": "Croatia", "Team": "Cloud9" },
+        { "ingameName": "Uzi", "National": "China", "Team": "RNG" },
+        { "ingameName": "Caps", "National": "Denmark", "Team": "G2" },
+        { "ingameName": "Perkz", "National": "Croatia", "Team": "Cloud9" },
+        { "ingameName": "Uzi", "National": "China", "Team": "RNG" },
+        { "ingameName": "Caps", "National": "Denmark", "Team": "G2" },
+        { "ingameName": "Perkz", "National": "Croatia", "Team": "Cloud9" },
         { "ingameName": "Doublelift", "National": "USA", "Team": "TSM" }
     ];
     displayPage(data, currentPage);
     setupPaginationEvents();
+    updatePagination();
     // fetch('player-data-api-endpoint')
     // .then(response => response.json())
     // .then(data => {
@@ -102,8 +119,8 @@ function setupPaginationEvents()
         link.addEventListener('click', (event) => {
             event.preventDefault();
             const text = link.innerText;
-            if (text === '«'){
-                if (currentPage > 1) currentPage--;
+            if (text === '«' && currentPage > 1){
+                currentPage--;
             }
             else if (text === '»'){
                 const totalPages = Math.ceil(data.length / rowsPerPage);
@@ -113,6 +130,7 @@ function setupPaginationEvents()
                 currentPage = Number(text);    
             }
             displayPage(data,currentPage);
+            updatePagination();
         });
     });
 }
@@ -124,7 +142,7 @@ function displayPage(data, page) {
 
     
     const tbody = document.getElementById('player-table-body');
-    tbody.innerHTML = '';
+    tbody.innerHTML = '';//xóa dữ liệu cũ trước khi thêm dữ liệu mới
 
     currentPageData.forEach((player, index) => {
         const row = document.createElement('tr');
@@ -136,4 +154,48 @@ function displayPage(data, page) {
         `;
         tbody.appendChild(row);
     });
+}
+
+function updatePagination()
+{
+    const pagination = document.getElementById('pagination');
+    const totalPages = Math.ceil(data.length / rowsPerPage);
+
+    if(totalPages <= 1)
+    {
+        pagination.style.display = 'none';
+    }
+    else
+    {
+        pagination.style.display = 'flex';
+    }
+
+    let paginationHTML = `
+    <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>`;
+
+    if (totalPages <= 4) {
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHTML += `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`;
+        }
+    } else {
+        paginationHTML += `<li class="page-item"><a class="page-link" href="#">1</a></li>
+                           <li class="page-item"><a class="page-link" href="#">2</a></li>
+                           <li class="page-item"><a class="page-link" href="#">3</a></li>
+                           <li class="page-item">...</li>
+                           <li class="page-item"><a class="page-link" href="#">${totalPages}</a></li>`;
+    }
+
+    paginationHTML += `
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>`;
+
+    pagination.innerHTML = paginationHTML;
+    setupPaginationEvents()
 }
