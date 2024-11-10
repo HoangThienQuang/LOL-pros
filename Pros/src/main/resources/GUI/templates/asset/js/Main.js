@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('nav ul li a').forEach(function(link) {
-        link.addEventListener('click', homepageNav);
+    document.querySelectorAll('nav ul li a').forEach(function(link) {//chọn hết các thẻ nav,ul,li,a của navbar
+        link.addEventListener('click', homepageNav);//thêm event cho từng thẻ đó
     });
 
     // Tải trang chủ mặc định khi tải trang
@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function homepageNav(event) {
-    event.preventDefault();
-    const page = event.target.getAttribute('data-main-page');
+    event.preventDefault();// loại bỏ các sự kiện mặc định của thẻ
+    const page = event.target.getAttribute('data-main-page');//kiểm tra xem dữ liệu biến
     loadPage(page);
 }
 
 function loadPage(page) {
-    currentPage = 1;
+    currentPage = 1;//gán lại current page mỗi khi load lại sub item mới
     fetch(page + '.html')
         .then(response => response.text())
         .then(html => {
@@ -23,12 +23,6 @@ function loadPage(page) {
             // if (page === 'player' || page === 'team' || page === 'region' || page === 'tournament') {
             //     setUpSubPage();
             // }
-            // if(page === 'player')
-            //     loadAllPlayer();
-            // if(page === 'team')
-            //     loadAllTeam();
-            // if(page === 'tournament')
-            //     loadpageData();
             LoadSubPage();
         })
         .catch(error => {
@@ -58,39 +52,30 @@ function handleSubNavClick(event) {
         })
     //console.log(subPage);
 }
-function addPaginationEvent(event)
-{
-    event.preventDefault();
-    const text = link.innerText;
-    if (text === '«' && currentPage > 1){
-        currentPage--;
-    }
-    else if (text === '»'){
-        const totalPages = Math.ceil(data.length / rowsPerPage);
-        if (currentPage < totalPages) currentPage++;
-    }
-    else if (!isNaN(text)) {
-        currentPage = Number(text);    
-    }
-    displayTable(data,currentPage);
-    updatePagination2();
-}
+// function addPaginationEvent(event)
+// {
+//     event.preventDefault();
+//     const text = link.innerText;
+//     if (text === '«' && currentPage > 1){
+//         currentPage--;
+//     }
+//     else if (text === '»'){
+//         const totalPages = Math.ceil(data.length / rowsPerPage);
+//         if (currentPage < totalPages) currentPage++;
+//     }
+//     else if (!isNaN(text)) {
+//         currentPage = Number(text);    
+//     }
+//     displayTable(data,currentPage);
+//     updatePagination2();
+// }
 //----------------------------------------testLoadPage----------------------------------------
 let currentPage = 1;
 const rowsPerPage = 5;
 let data = [];
 function LoadSubPage()
 {
-    data =[ 
-        { "TeamName": "Levi", "Region": "VietNam", "Sponsor": "GAM" },
-        { "TeamName": "Bang", "Region": "Korea", "Sponsor": "T1" },
-        { "TeamName": "Levi", "Region": "VietNam", "Sponsor": "GAM" },
-        { "TeamName": "Bang", "Region": "Korea", "Sponsor": "T1" },
-        { "TeamName": "Levi", "Region": "VietNam", "Sponsor": "GAM" },
-        { "TeamName": "Bang", "Region": "Korea", "Sponsor": "T1" },
-        { "TeamName": "Levi", "Region": "VietNam", "Sponsor": "GAM" },
-        { "TeamName": "Bang", "Region": "Korea", "Sponsor": "T1" }
-    ];
+    data = loadAPIData(document.getElementById('sub-page').getAttribute('current-page'));
     displayTable(data, currentPage);
     setupPaginationEvents2();
     let pageName = document.getElementById('sub-page').getAttribute('current-page');
@@ -215,6 +200,113 @@ function updatePagination2(pageName)
 
     pagination.innerHTML = paginationHTML;
     setupPaginationEvents2()
+}
+
+function loadAPIData(page)
+{
+    switch(page)
+    {
+        // hardcode data in each case will replace with response API json
+        case 'player':
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" },
+            ];
+            //data = getDataFromAPI(page);
+            return data;
+        case 'team':
+            data =[ 
+                { "TeamName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TeamName": "T1", "Region": "Korea", "Sponsor": "T1" },
+                { "TeamName": "TW", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TeamName": "GENG", "Region": "Korea", "Sponsor": "T1" },
+                { "TeamName": "VKE", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TeamName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TeamName": "T1", "Region": "Korea", "Sponsor": "T1" },
+                { "TeamName": "TW", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TeamName": "GENG", "Region": "Korea", "Sponsor": "T1" },
+                { "TeamName": "VKE", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TeamName": "HLE", "Region": "Korea", "Sponsor": "T1" },
+                { "TeamName": "SGB", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TeamName": "KT", "Region": "Korea", "Sponsor": "T1" }
+            ];
+            return data;
+        case 'region':
+            data =[ 
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "LCK", "Country": "Korea", "Team": "T1" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "LCK", "Country": "Korea", "Team": "T1" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "LCK", "Country": "Korea", "Team": "T1" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "LCK", "Country": "Korea", "Team": "T1" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "LCK", "Country": "Korea", "Team": "T1" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "LCK", "Country": "Korea", "Team": "T1" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "LCK", "Country": "Korea", "Team": "T1" },
+                { "RegionName": "VCS", "Country": "VietNam", "Team": "GAM" },
+                { "RegionName": "LCK", "Country": "Korea", "Team": "T1" }
+            ];
+            return data;
+        case 'tournament':
+            data =[ 
+                { "TournamentName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "T1", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "TW", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GENG", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "VKE", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "T1", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "TW", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GENG", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "VKE", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "T1", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "TW", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GENG", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "VKE", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "T1", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "TW", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GENG", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "VKE", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "T1", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "TW", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GENG", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "VKE", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "T1", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "TW", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "GENG", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "VKE", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "HLE", "Region": "Korea", "Sponsor": "T1" },
+                { "TournamentName": "SGB", "Region": "VietNam", "Sponsor": "GAM" },
+                { "TournamentName": "KT", "Region": "Korea", "Sponsor": "T1" }
+            ];
+            return data;
+
+    }
+}
+
+async function getDataFromAPI(pageName)
+{
+    let apiRequest = 'https://localhost/getAll' + pageName;
+    try{
+        const response = await fetch(apiRequest);
+        if(!response.ok)
+            throw new Error(`${response.status} ... Opzz we can't get anydata from that !`)
+        return await response.json();
+    }
+    catch(error)
+    {
+        console.log("Error when getting data from api: ", error);
+    }
 }
 
 
