@@ -126,3 +126,74 @@
 #player-table-body{
     overflow-y: auto;
 }
+/* ------------------------------------------------------ */
+/* Thiết lập cơ bản cho player-info */
+.player-info{
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Đặt layout cho overview và career phần sử dụng flexbox */
+.over-view, .player-career {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Hình ảnh của cầu thủ */
+.player-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Media Query cho thiết bị nhỏ hơn 768px (tablet và điện thoại) */
+@media (max-width: 768px) {
+    .player-info{
+        width: 100%;
+        padding: 5px;
+    }
+
+    .over-view {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ingame-name {
+        font-size: 1.5rem;
+    }
+}
+
+/* Media Query cho thiết bị nhỏ hơn 480px (điện thoại) */
+@media (max-width: 480px) {
+    .player-info {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .ingame-name {
+        font-size: 1.2rem;
+    }
+
+    .player-image {
+        width: 100%;
+    }
+}
+
+/* Thiết lập cơ bản cho ads-content */
+.ads-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 10px;
+}
+
+/* Thiết lập cơ bản cho ads */
+.ads {
+    background-color: #ccc; /* Màu nền chỉ để minh họa */
+    height: 150px; /* Chiều cao cố định để dễ nhìn */
+}
+

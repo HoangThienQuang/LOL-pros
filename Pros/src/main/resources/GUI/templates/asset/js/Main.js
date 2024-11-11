@@ -23,7 +23,8 @@ function loadPage(page) {
             // if (page === 'player' || page === 'team' || page === 'region' || page === 'tournament') {
             //     setUpSubPage();
             // }
-            LoadSubPage();
+            if(page !== 'home')
+                LoadSubPage();
         })
         .catch(error => {
             console.error('Error when loading page: ', error);
@@ -52,23 +53,6 @@ function handleSubNavClick(event) {
         })
     //console.log(subPage);
 }
-// function addPaginationEvent(event)
-// {
-//     event.preventDefault();
-//     const text = link.innerText;
-//     if (text === '«' && currentPage > 1){
-//         currentPage--;
-//     }
-//     else if (text === '»'){
-//         const totalPages = Math.ceil(data.length / rowsPerPage);
-//         if (currentPage < totalPages) currentPage++;
-//     }
-//     else if (!isNaN(text)) {
-//         currentPage = Number(text);    
-//     }
-//     displayTable(data,currentPage);
-//     updatePagination2();
-// }
 //----------------------------------------testLoadPage----------------------------------------
 let currentPage = 1;
 const rowsPerPage = 5;
@@ -99,9 +83,10 @@ function displayTable(data, currentPage)
 
     currentPageData.forEach((item, index) => {
         const row = document.createElement('tr');
+        //<td><a href="playerInfo.html" onclick="loadPlayerInfo('${item[keyItem[0]]}', event)">${item[keyItem[0]]}</a></td>
         row.innerHTML = `
             <th scope="row">${startIndex + index + 1}</th>
-            <td>${item[keyItem[0]]}</td>
+            <td><a href="playerInfo.html" onclick="loadPlayerInfo(event)">${item[keyItem[0]]}</a></td>
             <td>${item[keyItem[1]]}</td>
             <td>${item[keyItem[2]]}</td>
         `;
@@ -307,6 +292,20 @@ async function getDataFromAPI(pageName)
     {
         console.log("Error when getting data from api: ", error);
     }
+}
+
+function loadPlayerInfo(event)
+{
+    event.preventDefault();
+    fetch('playerInfo.html')
+    .then(response => response.text())
+    .then(html => {
+        document.getElementById('main-content').innerHTML = html;
+
+    })
+    .catch(error=>{
+        console.log("error when loading player Info : ", error);
+    });
 }
 
 
