@@ -62,8 +62,8 @@ function LoadSubPage()
     data = loadAPIData(document.getElementById('sub-page').getAttribute('current-page'));
     displayTable(data, currentPage);
     setupPaginationEvents2();
-    let pageName = document.getElementById('sub-page').getAttribute('current-page');
-    updatePagination2(pageName);
+    //let pageName = document.getElementById('sub-page').getAttribute('current-page');
+    updatePagination2();
     SearchAction();
 }
 
@@ -142,9 +142,9 @@ function addPaginationEvent(event)
 
 // }
 
-function updatePagination2(pageName)
+function updatePagination2()
 {
-    //const pagination2 = document.getElementById('pagination');
+    var pageName = document.getElementById('sub-page').getAttribute('current-page');
     let paginationTag = `[pagination-page="${pageName}-pagination"]`;
     const pagination = document.querySelector(paginationTag);
     const totalPages = Math.ceil(data.length / rowsPerPage);
@@ -155,9 +155,6 @@ function updatePagination2(pageName)
     }
     else
     {
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     pagination.style.display = 'flex';
-        // });
         pagination.style.display = 'flex';
     }
 
