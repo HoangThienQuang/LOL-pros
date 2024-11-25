@@ -151,17 +151,26 @@
 }
 .select-option
 {
-    width: 200px;
+    width: 100px;
     height: 50px;   
     border: 2px solid blue;
     margin-top: 10px;
 }
-.search-btn
+.search-text
 {
     border-radius: 5px;
     height: 50px;
     margin-top: 10px;
 }
+.search-btn
+{
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #8ed5fb;
+    margin-left: 20px;
+}
+
 /* ------------------------------------------------------ */
 
 /*----------------------------------------Player Info-----------------------------------------------------*/

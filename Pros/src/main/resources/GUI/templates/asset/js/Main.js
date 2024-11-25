@@ -64,6 +64,7 @@ function LoadSubPage()
     setupPaginationEvents2();
     let pageName = document.getElementById('sub-page').getAttribute('current-page');
     updatePagination2(pageName);
+    SearchAction();
 }
 
 function displayTable(data, currentPage)
@@ -154,6 +155,9 @@ function updatePagination2(pageName)
     }
     else
     {
+        // document.addEventListener("DOMContentLoaded", function() {
+        //     pagination.style.display = 'flex';
+        // });
         pagination.style.display = 'flex';
     }
 
@@ -306,6 +310,88 @@ function loadPlayerInfo(event)
     .catch(error=>{
         console.log("error when loading player Info : ", error);
     });
+}
+
+//------------------------------------Player page srcript ----------------------------------------
+//Handle Search Action
+function SearchAction()
+{
+    var searchBtnId = document.getElementById('sub-page').getAttribute('current-page') + "-table-search-btn";
+    document.getElementById(searchBtnId).addEventListener("click",(event) => {SearchBtnAction()});
+    //document.getElementsByClassName("search-btn").addEventListener("click",(event) => {SearchBtnAction()});
+}
+
+function SearchBtnAction()
+{
+    var optionSelected = document.getElementById("search-option").value;
+    //--- search data based on selected item
+    var data = searchOptionData(optionSelected);
+    displayTable(data, currentPage);
+    let pageName = document.getElementById('sub-page').getAttribute('current-page');
+    updatePagination2(pageName);
+}
+
+function searchOptionData(optionSelected)
+{
+    switch(optionSelected.toUpperCase())
+    {
+        // hardcode data in each case will replace with response API json
+        case 'ALL':
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Kiaya", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Faker", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Uzi", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Knight", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Caps", "Region": "EU", "Team": "C9" },
+                { "PlayerName": "Rekkles", "Region": "EU", "Team": "C9" },
+                { "PlayerName": "SOFM", "Region": "VietNam", "Team": "VKE" },
+                { "PlayerName": "Chovy", "Region": "Korea", "Team": "Gen" }
+            ];
+            //data = getDataFromAPI(page);
+            return data;
+        case 'NAME':
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" }
+            ];
+            return data;
+        case 'NATION':
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Kiaya", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "SOFM", "Region": "VietNam", "Team": "VKE" }
+            ];
+            return data;
+        case 'TEAM':
+            data =[ 
+                { "PlayerName": "Faker", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" }
+            ];
+            return data;
+        case 'ROLE':
+            data =[
+                { "PlayerName": "Uzi", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Knight", "Region": "China", "Team": "BLG" }
+            ];
+            return data;
+        default:
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Kiaya", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Faker", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Uzi", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Knight", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Caps", "Region": "EU", "Team": "C9" },
+                { "PlayerName": "Rekkles", "Region": "EU", "Team": "C9" },
+                { "PlayerName": "SOFM", "Region": "VietNam", "Team": "VKE" },
+                { "PlayerName": "Chovy", "Region": "Korea", "Team": "Gen" }
+            ];
+            //data = getDataFromAPI(page);
+            return data;
+
+    }
 }
 
 
