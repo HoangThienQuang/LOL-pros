@@ -23,7 +23,8 @@ function loadPage(page) {
             // if (page === 'player' || page === 'team' || page === 'region' || page === 'tournament') {
             //     setUpSubPage();
             // }
-            LoadSubPage();
+            if(page !== 'home')
+                LoadSubPage();
         })
         .catch(error => {
             console.error('Error when loading page: ', error);
@@ -52,24 +53,7 @@ function handleSubNavClick(event) {
         })
     //console.log(subPage);
 }
-// function addPaginationEvent(event)
-// {
-//     event.preventDefault();
-//     const text = link.innerText;
-//     if (text === '«' && currentPage > 1){
-//         currentPage--;
-//     }
-//     else if (text === '»'){
-//         const totalPages = Math.ceil(data.length / rowsPerPage);
-//         if (currentPage < totalPages) currentPage++;
-//     }
-//     else if (!isNaN(text)) {
-//         currentPage = Number(text);    
-//     }
-//     displayTable(data,currentPage);
-//     updatePagination2();
-// }
-//----------------------------------------testLoadPage----------------------------------------
+//----------------------------------------testLoadTableAllPage----------------------------------------
 let currentPage = 1;
 const rowsPerPage = 5;
 let data = [];
@@ -78,8 +62,9 @@ function LoadSubPage()
     data = loadAPIData(document.getElementById('sub-page').getAttribute('current-page'));
     displayTable(data, currentPage);
     setupPaginationEvents2();
-    let pageName = document.getElementById('sub-page').getAttribute('current-page');
-    updatePagination2(pageName);
+    //let pageName = document.getElementById('sub-page').getAttribute('current-page');
+    updatePagination2();
+    SearchAction();
 }
 
 function displayTable(data, currentPage)
@@ -99,9 +84,10 @@ function displayTable(data, currentPage)
 
     currentPageData.forEach((item, index) => {
         const row = document.createElement('tr');
+        //<td><a href="playerInfo.html" onclick="loadPlayerInfo('${item[keyItem[0]]}', event)">${item[keyItem[0]]}</a></td>
         row.innerHTML = `
             <th scope="row">${startIndex + index + 1}</th>
-            <td>${item[keyItem[0]]}</td>
+            <td><a href="playerInfo.html" onclick="loadPlayerInfo(event)">${item[keyItem[0]]}</a></td>
             <td>${item[keyItem[1]]}</td>
             <td>${item[keyItem[2]]}</td>
         `;
@@ -156,9 +142,9 @@ function addPaginationEvent(event)
 
 // }
 
-function updatePagination2(pageName)
+function updatePagination2()
 {
-    //const pagination2 = document.getElementById('pagination');
+    var pageName = document.getElementById('sub-page').getAttribute('current-page');
     let paginationTag = `[pagination-page="${pageName}-pagination"]`;
     const pagination = document.querySelector(paginationTag);
     const totalPages = Math.ceil(data.length / rowsPerPage);
@@ -306,6 +292,102 @@ async function getDataFromAPI(pageName)
     catch(error)
     {
         console.log("Error when getting data from api: ", error);
+    }
+}
+
+function loadPlayerInfo(event)
+{
+    event.preventDefault();
+    fetch('playerInfo.html')
+    .then(response => response.text())
+    .then(html => {
+        document.getElementById('main-content').innerHTML = html;
+
+    })
+    .catch(error=>{
+        console.log("error when loading player Info : ", error);
+    });
+}
+
+//------------------------------------Player page srcript ----------------------------------------
+//Handle Search Action
+function SearchAction()
+{
+    var searchBtnId = document.getElementById('sub-page').getAttribute('current-page') + "-table-search-btn";
+    document.getElementById(searchBtnId).addEventListener("click",(event) => {SearchBtnAction()});
+    //document.getElementsByClassName("search-btn").addEventListener("click",(event) => {SearchBtnAction()});
+}
+
+function SearchBtnAction()
+{
+    currentPage = 1;
+    var optionSelected = document.getElementById("search-option").value;
+    //--- search data based on selected item
+    var data = searchOptionData(optionSelected);
+    displayTable(data, currentPage);
+    updatePagination2();
+}
+
+function searchOptionData(optionSelected)
+{
+    switch(optionSelected.toUpperCase())
+    {
+        // hardcode data in each case will replace with response API json
+        case 'ALL':
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Kiaya", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Faker", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Uzi", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Knight", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Caps", "Region": "EU", "Team": "C9" },
+                { "PlayerName": "Rekkles", "Region": "EU", "Team": "C9" },
+                { "PlayerName": "SOFM", "Region": "VietNam", "Team": "VKE" },
+                { "PlayerName": "Chovy", "Region": "Korea", "Team": "Gen" }
+            ];
+            //data = getDataFromAPI(page);
+            return data;
+        case 'NAME':
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" }
+            ];
+            return data;
+        case 'NATION':
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Kiaya", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "SOFM", "Region": "VietNam", "Team": "VKE" }
+            ];
+            return data;
+        case 'TEAM':
+            data =[ 
+                { "PlayerName": "Faker", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" }
+            ];
+            return data;
+        case 'ROLE':
+            data =[
+                { "PlayerName": "Uzi", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Knight", "Region": "China", "Team": "BLG" }
+            ];
+            return data;
+        default:
+            data =[ 
+                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Kiaya", "Region": "VietNam", "Team": "GAM" },
+                { "PlayerName": "Faker", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" },
+                { "PlayerName": "Uzi", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Knight", "Region": "China", "Team": "BLG" },
+                { "PlayerName": "Caps", "Region": "EU", "Team": "C9" },
+                { "PlayerName": "Rekkles", "Region": "EU", "Team": "C9" },
+                { "PlayerName": "SOFM", "Region": "VietNam", "Team": "VKE" },
+                { "PlayerName": "Chovy", "Region": "Korea", "Team": "Gen" }
+            ];
+            //data = getDataFromAPI(page);
+            return data;
+
     }
 }
 
