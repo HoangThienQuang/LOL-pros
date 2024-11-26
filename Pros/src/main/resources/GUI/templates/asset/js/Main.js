@@ -53,7 +53,7 @@ function handleSubNavClick(event) {
         })
     //console.log(subPage);
 }
-//----------------------------------------testLoadPage----------------------------------------
+//----------------------------------------testLoadTableAllPage----------------------------------------
 let currentPage = 1;
 const rowsPerPage = 5;
 let data = [];
@@ -320,12 +320,12 @@ function SearchAction()
 
 function SearchBtnAction()
 {
+    currentPage = 1;
     var optionSelected = document.getElementById("search-option").value;
     //--- search data based on selected item
     var data = searchOptionData(optionSelected);
     displayTable(data, currentPage);
-    let pageName = document.getElementById('sub-page').getAttribute('current-page');
-    updatePagination2(pageName);
+    updatePagination2();
 }
 
 function searchOptionData(optionSelected)
