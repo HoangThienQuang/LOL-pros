@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/player")
 @RestController
 public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping("/allPlayers")
+    @GetMapping("/all")
     ApiResponse<Object> getAllPlayer()
     {
         List<TransferPlayerGetAll> result = playerService.getAllPlayer();
@@ -27,7 +28,7 @@ public class PlayerController {
                 .build();
     }
 
-    @PostMapping("/createPlayer")
+    @PostMapping("/create")
     ApiResponse<PlayerResponse> createPlayer(@RequestBody PlayerRequest request)
     {
         return ApiResponse.<PlayerResponse>builder()
@@ -47,7 +48,7 @@ public class PlayerController {
                 .build();
     }
 
-    @PostMapping("/player")
+    @PostMapping("/playerName")
     ApiResponse<PlayerResponse> getPlayerByName(@RequestBody String playerName)
     {
         return ApiResponse.<PlayerResponse>builder()
