@@ -1,5 +1,6 @@
 package com.LOL.Pros.dto.response;
 
+import com.LOL.Pros.Entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +15,10 @@ import java.util.Set;
 @Builder
 public class PlayerResponse {
     private String playerId;
-
-    private String inGameName;
+    private String ingameName;
     private String playerName;
     private LocalDate dob;
-    private String region;
-    //private Set<String> position;
-    private String currentTeam;
+    private String nationality;
+    private String role;
     //private Set<String> playedTeam;
 }

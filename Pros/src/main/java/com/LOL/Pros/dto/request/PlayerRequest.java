@@ -1,5 +1,6 @@
 package com.LOL.Pros.dto.request;
 
+import com.LOL.Pros.Entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,11 +14,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class PlayerRequest {
-    private String inGameName;
+    private String ingameName;
     private String playerName;
     private LocalDate dob;
-    private String region;
-    //private Set<String> position;
-    private String currentTeam;
-    //private Set<String> playedTeam;
+    private String nationality;
+    private String role;
 }
