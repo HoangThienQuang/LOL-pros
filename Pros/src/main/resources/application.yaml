@@ -1,8 +1,12 @@
 spring:
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/static/
   datasource:
-    url: "jdbc:mysql://localhost:3309/TestLOL"
+    url: "jdbc:mysql://localhost:3306/TestLOL"
     username: root
-    password: root
+    password: quangquang
   jpa:
     hibernate:
       ddl-auto: update
