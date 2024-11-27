@@ -1,79 +1,73 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin người chơi</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        input, button {
-            margin: 10px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        div {
-            text-align: center;
-            border: 1px solid black;
-            padding: 10px;
-            margin: 10px;
-            width: 200px;
-        }
-        strong {
-            text-align: center;
-            display: block;
-            margin-top: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/myStyle.css">
+    <link rel="shortcut icon" href="#" />
+    <title>LOL-Pros</title>
 </head>
 <body>
-<h2>Thông tin người chơi</h2>
-<input type="text" id="playerInput" placeholder="Nhập dữ liệu người chơi">
-<button onclick="submitData()">Gửi dữ liệu</button>
+  <div class="containerz">
+    <nav class="navbar navbar-expand-lg bg-transparent custom-bg-navbar-1 justify-content-center">
+        <img src="/photo/League_of_Legends_Icon.png" alt="Logo" class="navbar-image-custom">
+    </nav>
+    <nav class="navbar navbar-expand-md bg-dark sticky-top" data-bs-theme="dark">
+        <!--nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark" -->
+      
+          <a class="navbar-brand" href="#">LoL Pros</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#" data-main-page ="home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-main-page ="player">Player</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-main-page="team">Team</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-main-page="region">Region</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-main-page="tournament">Tournament</a>
+              </li>
+            </ul>
+          </div>
+      </nav>
 
-<strong>Player ID:</strong>
-<div id="playerIdValue"></div>
-<strong>Player Name:</strong>
-<div id="playerNameValue"></div>
-<strong>Current Team:</strong>
-<div id="currentTeamValue"></div>
-<strong>Note:</strong>
-<div id="noteValue"></div>
+    <main id="main-content" class="main-content">
+    </main>
 
-<script>
-    function submitData() {
-        const data = document.getElementById('playerInput').value;
+    <footer class="footer">
+      <div class="contact-info">
+        <div class="contact-info-text">Contact us via :</div>
+        <div class="contact-info-icon">
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+            <img src="/photo/facebook-icon.png" alt="facebook-icon" class="icon">
+          </a>
 
-        fetch('/player', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain',
-            },
-            body: data,
-        })
-        .then(response => response.json())
-        .then(json => {
-            console.log('Thành công:', json);
-            if (json.code === 100) {
-                // Hiển thị dữ liệu lên các thẻ div
-                document.getElementById('playerIdValue').textContent = json.data.playerId;
-                document.getElementById('playerNameValue').textContent = json.data.playerName;
-                document.getElementById('currentTeamValue').textContent = json.data.currentTeam;
-                document.getElementById('noteValue').textContent = json.data.note;
-            } else {
-                console.error('Lỗi:', json.message);
-            }
-        })
-        .catch((error) => {
-            console.error('Lỗi:', error);
-        });
-    }
-</script>
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+            <img src="/photo/youtube-icon.png" alt="youtube-icon" class="icon">
+          </a>
+          
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+            <img src="/photo/gmail-icon.png" alt="gmail-icon" class="icon">
+          </a>
+          
+        </div>
+      </div>
+      <div class="custom-notice">This is our project for LoL information and this isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc..</div>
+    </footer>
+  </div>
+
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/Main.js"></script>
 </body>
 </html>
