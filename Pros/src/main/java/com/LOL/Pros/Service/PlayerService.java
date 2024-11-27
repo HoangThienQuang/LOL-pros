@@ -58,6 +58,29 @@ public class PlayerService {
         return toPlayerResponse(playerRepository.findByPlayerName(playerName).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
     }
 
+    public List<TransferPlayerGetAll> getPlayerByNation(String nation)
+    {
+        List<Player> players = playerRepository.findByNationality(nation);
+        return players.stream().map(this::toTransferPlayerGetAll).collect(Collectors.toList());
+        //return playerRepository.findAll();
+    }
+
+    public List<TransferPlayerGetAll> getPlayerByRole(Role role)
+    {
+        List<Player> players = playerRepository.findByRole(role);
+        return players.stream().map(this::toTransferPlayerGetAll).collect(Collectors.toList());
+        //return playerRepository.findAll();
+    }
+
+    public List<TransferPlayerGetAll> getPlayerByTeam(Team team)
+    {
+        String teamName = team.getTeamName();
+        List<Player> players = playerRepository.findByCurrentTeam(teamName);
+        return players.stream().map(this::toTransferPlayerGetAll).collect(Collectors.toList());
+        //return playerRepository.findAll();
+    }
+
+
     private Player toPlayer(PlayerRequest request)
     {
         return Player.builder()

@@ -152,4 +152,9 @@ public class TeamService {
         teamRepository.save(team);
         return convertToPlayerTeamDTO(team);
     }
+
+    public Team GetTeamByTeamName(String teamName)
+    {
+        return teamRepository.findByTeamName(teamName).orElseThrow(() -> new AppException(ResponseCode.TEAM_NOT_EXIST));
+    }
 }
