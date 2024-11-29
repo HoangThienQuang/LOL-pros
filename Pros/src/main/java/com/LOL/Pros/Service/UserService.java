@@ -85,4 +85,11 @@ public class UserService {
                 .dob(user.getDob())
                 .build();
     }
+
+    //delete user by user name
+    public void deleteUserByName(String userName)
+    {
+        User user = userRepository.findByUserName(userName).orElseThrow(()-> new AppException(ResponseCode.USER_NOT_EXIST));
+        userRepository.delete(user);
+    }
 }
