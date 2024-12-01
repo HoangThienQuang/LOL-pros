@@ -9,6 +9,8 @@ import com.LOL.Pros.dto.request.UserCreateRequest;
 import com.LOL.Pros.dto.response.UserResponse;
 import com.LOL.Pros.dto.transferDTO.TransferUserGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +29,10 @@ public class UserService {
         User user = new User();
         //mapping request to new user
         user.setUserName(request.getUserName());
-        user.setUserPass(request.getUserPass());
+
+        //encode password with Bcrypt
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setUserPass(passwordEncoder.encode(request.getUserPass()));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setDob(request.getDob());
