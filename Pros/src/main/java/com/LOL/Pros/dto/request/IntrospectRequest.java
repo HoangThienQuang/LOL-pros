@@ -1,15 +1,12 @@
-package com.LOL.Pros.dto.response;
+package com.LOL.Pros.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class AuthenResponse {
-    private boolean authenticated;
+public class IntrospectRequest {
     private String token;
 }
