@@ -1,6 +1,5 @@
 package com.LOL.Pros.dto.response;
 
-import com.LOL.Pros.Entity.PlayerTeam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

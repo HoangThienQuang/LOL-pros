@@ -1,6 +1,5 @@
 package com.LOL.Pros.dto.response;
 
-import com.LOL.Pros.Entity.Region;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

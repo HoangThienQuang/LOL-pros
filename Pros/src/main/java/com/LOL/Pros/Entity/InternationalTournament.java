@@ -1,11 +1,20 @@
 package com.LOL.Pros.Entity;
 
-import jakarta.persistence.Entity;
-import lombok.Data;
-import lombok.experimental.SuperBuilder;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
-@Data
-@SuperBuilder
-public class InternationalTournament extends Tournament{
+public class InternationalTournament {
+    @Id
+    @Column(name = "tournamentId", nullable = false, length = 100)
+    private String tournamentId;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tournamentId", nullable = false)
+    private Tournament tournament;
+
 }

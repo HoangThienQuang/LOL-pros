@@ -1,30 +1,20 @@
 package com.LOL.Pros.Entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
+@Getter
+@Setter
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Region {
     @Id
+    @Column(name = "regionName", nullable = false, length = 100)
     private String regionName;
 
-    // tạo mối quan hệ 1-n với team
-    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //mappedBy chỉ định trường trong team là chủ sở hữu mối quan hệ này
-    private Set<Team> teams = new HashSet<>();//tập hợp các team thuộc khu vực này
+    @Column(name = "description", length = 100)
+    private String description;
 
-    //tạo mối quan hệ 1-n với domestic tournament
-    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<DomesticTournament> domesticTournaments = new HashSet<>();
 }

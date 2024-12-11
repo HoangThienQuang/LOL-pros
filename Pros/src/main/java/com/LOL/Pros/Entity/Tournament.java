@@ -1,33 +1,28 @@
 package com.LOL.Pros.Entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
-@SuperBuilder
-public abstract class Tournament {
+public class Tournament {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "tournamentId", nullable = false, length = 100)
     private String tournamentId;
 
+    @Column(name = "tournamentName", nullable = false, length = 100)
     private String tournamentName;
-    private String competitionPlace;
-    private Date startDate;//YYYY-MM-DD
-    private Date endDate;//YYYY-MM-DD
-    private int numberOfParticipateTeam;
 
-    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Series> series = new HashSet<>();
+    @Column(name = "startDate")
+    private LocalDate startDate;
+
+    @Column(name = "endDate")
+    private LocalDate endDate;
+
 }

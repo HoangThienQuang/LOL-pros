@@ -1,17 +1,10 @@
 package com.LOL.Pros.Service;
 
-import com.LOL.Pros.Entity.Region;
-import com.LOL.Pros.Entity.Team;
-import com.LOL.Pros.Entity.Tournament;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Repository.RegionRepository;
-import com.LOL.Pros.Repository.TeamRepository;
-import com.LOL.Pros.Repository.TournamentRepository;
 import com.LOL.Pros.dto.request.RegionRequest;
-import com.LOL.Pros.dto.request.Update.RegionUpdateRequest;
 import com.LOL.Pros.dto.response.RegionResponse;
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,7 @@
 package com.LOL.Pros.Controller;
 
-import com.LOL.Pros.Entity.Region;
 import com.LOL.Pros.Service.RegionService;
 import com.LOL.Pros.dto.request.RegionRequest;
-import com.LOL.Pros.dto.request.Update.RegionUpdateRequest;
 import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.RegionResponse;
 import org.springframework.beans.factory.annotation.Autowired;

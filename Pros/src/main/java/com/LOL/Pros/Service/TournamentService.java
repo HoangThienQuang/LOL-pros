@@ -1,8 +1,6 @@
 package com.LOL.Pros.Service;
 
 
-import com.LOL.Pros.Entity.DomesticTournament;
-import com.LOL.Pros.Entity.Tournament;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Mapper.TournamentMapper;
@@ -10,7 +8,6 @@ import com.LOL.Pros.Repository.DomesticTournamentRepository;
 import com.LOL.Pros.Repository.RegionRepository;
 import com.LOL.Pros.Repository.TournamentRepository;
 import com.LOL.Pros.dto.request.DomesticRequest;
-import com.LOL.Pros.dto.request.TournamentRequest;
 import com.LOL.Pros.dto.response.TournamentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
