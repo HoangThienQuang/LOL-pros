@@ -1,25 +1,28 @@
 package com.LOL.Pros.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Trophy {
-    @Id
-    private String trophyName;
+    @EmbeddedId
+    private TrophyId id;
+
+    @MapsId("tournamentId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tournamentId", nullable = false)
+    private Tournament tournament;
+
+    @Column(name = "dateAwarded")
     private LocalDate dateAwarded;
 
-    //tạo cột tournament_id trong bảng trophy để lưu fk của tournament
-    @OneToOne
-    @JoinColumn(name = "tournament_id")
-    private Tournament tournament;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "teamId", nullable = false)
+    private Team team;
+
 }

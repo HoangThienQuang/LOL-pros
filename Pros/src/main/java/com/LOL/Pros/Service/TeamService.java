@@ -1,8 +1,5 @@
 package com.LOL.Pros.Service;
 
-import com.LOL.Pros.Entity.Player;
-import com.LOL.Pros.Entity.PlayerTeam;
-import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Repository.PlayerRepository;
@@ -12,13 +9,10 @@ import com.LOL.Pros.Repository.TeamRepository;
 import com.LOL.Pros.dto.request.TeamRequest;
 import com.LOL.Pros.dto.request.Update.TeamUpdateCaptainRequest;
 import com.LOL.Pros.dto.request.Update.TeamUpdateRequest;
-import com.LOL.Pros.dto.response.TeamAddPlayerResponse;
 import com.LOL.Pros.dto.response.TeamResponse;
 import com.LOL.Pros.dto.response.TeamUpdateResponse;
 import com.LOL.Pros.dto.transferDTO.TranferTeamGetAll;
 import com.LOL.Pros.dto.transferDTO.TransferPlayerTeam;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,5 @@
 package com.LOL.Pros.Controller;
 
-import com.LOL.Pros.Entity.Player;
-import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Enum.Role;
 import com.LOL.Pros.Service.PlayerService;
 import com.LOL.Pros.Service.TeamService;

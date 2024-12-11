@@ -1,6 +1,5 @@
 package com.LOL.Pros.Service;
 
-import com.LOL.Pros.Entity.User;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Repository.UserRepository;

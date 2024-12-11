@@ -1,6 +1,5 @@
 package com.LOL.Pros.Controller;
 
-import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Service.TeamService;
 import com.LOL.Pros.dto.request.TeamRequest;
 import com.LOL.Pros.dto.request.Update.TeamUpdateCaptainRequest;

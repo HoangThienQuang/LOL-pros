@@ -1,42 +1,37 @@
 package com.LOL.Pros.Entity;
 
-import com.LOL.Pros.Enum.Role;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
-
+@Getter
+@Setter
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@ToString
 public class Player {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "playerId", nullable = false, length = 100)
     private String playerId;
 
+    @Column(name = "ingameName", nullable = false, length = 100)
     private String ingameName;
-    private String playerName;
+
+    @Column(name = "playerFirstName", length = 100)
+    private String playerFirstName;
+
+    @Column(name = "playerLastMiddleName", length = 100)
+    private String playerLastMiddleName;
+
+    @Column(name = "dob")
     private LocalDate dob;
+
+    @Column(name = "nationality", length = 100)
     private String nationality;
 
-    //lưu Role xuống DB là dạng string
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(name = "role", nullable = false, length = 100)
+    private String role;
 
-    //PlayerTeam để quản lý mối quan hệ giữa player và team dựa trên start/end date
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Set<PlayerTeam> playerTeams = new HashSet<>();
-    private String currentTeam;
-
-
-//    @OneToOne(mappedBy = "captain")// Chỉ một player có thể là captain của một team
-//    private Team captainedTeam;
 }
