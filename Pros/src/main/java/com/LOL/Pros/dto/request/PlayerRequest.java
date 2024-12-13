@@ -11,9 +11,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PlayerRequest {
+public class PlayerRequest {//các thông tin người dùng cần nhập để tạo 1 hàng dữ liệu
     private String ingameName;
-    private String playerName;
+    private String playerFirstName;
+    private String playerLastMiddleName;
     private LocalDate dob;
     private String nationality;
     private String role;
