@@ -1,6 +1,7 @@
 package com.LOL.Pros.Controller;
 
 import com.LOL.Pros.Enum.Role;
+import com.LOL.Pros.Service.NewPlayerService;
 import com.LOL.Pros.Service.PlayerService;
 import com.LOL.Pros.Service.TeamService;
 import com.LOL.Pros.dto.request.PlayerRequest;
@@ -8,20 +9,23 @@ import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.PlayerResponse;
 import com.LOL.Pros.dto.transferDTO.TransferPlayerGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/player")
+@RequestMapping("/player") //tiền tố URL, ...localhost:8080/player
 @RestController
-public class PlayerController {
+public class PlayerController { // Controller <- Service <- repo(quản lý bởi JPA - JPA liên kết với DB)
     @Autowired
     private PlayerService playerService;
+    @Autowired
+    private NewPlayerService newPlayerService;
     @Autowired
     private TeamService teamService;
 
     //get All player
-    @GetMapping("/all")
+    @GetMapping("/all") //...localhost:8080/player/all
     ApiResponse<Object> getAllPlayer()
     {
         List<TransferPlayerGetAll> result = playerService.getAllPlayer();
@@ -39,7 +43,7 @@ public class PlayerController {
         return ApiResponse.<PlayerResponse>builder()
                 .code(100)
                 .message("Create player success")
-                .data(playerService.createPlayer(request))
+                .data(newPlayerService.createNewPlayer(request))
                 .build();
     }
 

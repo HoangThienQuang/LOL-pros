@@ -1,18 +1,19 @@
 package com.LOL.Pros.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Player {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO) // tự động tạo id kiểu tự động tăng
     @Column(name = "playerId", nullable = false, length = 100)
     private String playerId;
 
@@ -26,7 +27,7 @@ public class Player {
     private String playerLastMiddleName;
 
     @Column(name = "dob")
-    private LocalDate dob;
+    private LocalDate dob; //YYYY-MM-DD
 
     @Column(name = "nationality", length = 100)
     private String nationality;

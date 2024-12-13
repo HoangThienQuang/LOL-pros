@@ -282,7 +282,7 @@ function loadAPIData(page)
 
 async function getDataFromAPI(pageName)
 {
-    let apiRequest = 'https://localhost/getAll' + pageName;
+    let apiRequest = 'https://localhost:8080/' + pageName +'/all';
     try{
         const response = await fetch(apiRequest);
         if(!response.ok)
