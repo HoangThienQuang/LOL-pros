@@ -19,7 +19,7 @@ public class Team {
 
     @PrePersist // tạo hàm gọi thêm prefix vào ID trước khi lưu xuống DB
     public void generateId() {
-        this.teamId = "Team-" + counter.getAndIncrement();
+        this.teamId = "TM" + counter.getAndIncrement();
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

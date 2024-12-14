@@ -25,7 +25,7 @@ public class Player {
     @PostLoad
     public void generateID()
     {
-        this.prefixed = "Player-" + this.playerId;
+        this.prefixed = "PL" + this.playerId;
     }
 
     @Column(name = "ingameName", nullable = false, length = 100)
