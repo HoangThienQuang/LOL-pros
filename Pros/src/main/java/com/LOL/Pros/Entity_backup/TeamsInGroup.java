@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class TeamsInGroup {
     @EmbeddedId
     private TeamsInGroupId id;

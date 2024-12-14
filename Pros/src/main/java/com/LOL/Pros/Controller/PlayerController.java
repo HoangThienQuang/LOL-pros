@@ -60,13 +60,25 @@ public class PlayerController { // Controller <- Service <- repo(quản lý bở
     }
 
     //get player by name
-    @PostMapping("/playerName")
-    ApiResponse<PlayerResponse> getPlayerByFName(@RequestBody String playerFirstName)
+    @PostMapping("/playerFirstName")
+    ApiResponse<Object> getPlayerByFName(@RequestBody String playerFirstName)
     {
-        return ApiResponse.<PlayerResponse>builder()
+        List<PlayerResponse> result = playerService.getPlayerByFName(playerFirstName);
+        return ApiResponse.builder()
                 .code(100)
                 .message("Get player success")
-                .data(playerService.getPlayerByFName(playerFirstName))
+                .data(result)
+                .build();
+    }
+
+    @PostMapping("/playerLastAndMiddleName")
+    ApiResponse<Object> getPlayerByLName(@RequestBody String playerLastMiddleName)
+    {
+        List<PlayerResponse> result = playerService.getPlayerByLName(playerLastMiddleName);
+        return ApiResponse.builder()
+                .code(100)
+                .message("Get player success")
+                .data(result)
                 .build();
     }
 
@@ -85,8 +97,7 @@ public class PlayerController { // Controller <- Service <- repo(quản lý bở
     @PostMapping("/playerRole")
     ApiResponse<Object> getPlayerByRole(@RequestBody String role)
     {
-        Role inputRole = Role.valueOf(role.toUpperCase());
-        List<TransferPlayerGetAll> result = playerService.getPlayerByRole(inputRole);
+        List<TransferPlayerGetAll> result = playerService.getPlayerByRole(role);
         return ApiResponse.builder()
                 .code(100)
                 .message("Get all player success")

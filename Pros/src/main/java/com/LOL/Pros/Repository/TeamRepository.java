@@ -10,9 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team, String> {
-    Optional<Team> existsByTeamName(String teamName);
     Optional<Team> findByTeamName(String teamName);
 
-    //@Query("SELECT t FROM Team t JOIN t.teamCaptain p WHERE p.ingameName = :ingameName")
-    Boolean findByCaptainIngameName(String teamCaptain);
+    @Query("SELECT t FROM Team t JOIN t.teamCaptain p WHERE p.ingameName = :ingameName")
+    Boolean findByCaptainIngameName(String ingameName);
 }

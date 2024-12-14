@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class ParentRegion {
     @Id
     @Column(name = "minorRegionName", nullable = false, length = 100)

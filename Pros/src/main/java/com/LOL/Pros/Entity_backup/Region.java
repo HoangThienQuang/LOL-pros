@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class Region {
     @Id
     @Column(name = "regionName", nullable = false, length = 100)

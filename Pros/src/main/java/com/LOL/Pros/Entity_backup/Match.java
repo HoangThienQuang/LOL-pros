@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 @Table(name = "\"Match\"")
 public class Match {
     @Id

@@ -11,9 +11,8 @@ import java.util.Optional;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, String> {
     Optional<Player> findByIngameName(String ingameName);
-    Optional<Player> findByPlayerLName(String playerLName);
-    Optional<Player> findByPlayerFName(String playerFName);
+    List<Player> findByPlayerLastMiddleName(String playerLName);
+    List<Player> findByPlayerFirstName(String playerFName);
     List<Player> findByNationality (String national);
-    List<Player> findByRole (Role role);
-    List<Player> findByCurrentTeam (String currentTeam);
+    List<Player> findByRole (String role);
 }

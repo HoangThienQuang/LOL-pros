@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"Group\"")
-public class Group {
+public class TournamentGroup {
     @Id
     @Column(name = "groupId", nullable = false, length = 100)
     private String groupId;

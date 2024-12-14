@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,8 +14,20 @@ import java.util.Date;
 @Builder
 public class TournamentRequest {
     private String tournamentName;
-    private String competitionPlace;
+    private List<TournamentPlace> tournamentPlaces;
     private Date startDate;//YYYY-MM-DD
     private Date endDate;//YYYY-MM-DD
-    private int numberOfParticipateTeam;
+    private Boolean isInternational;
+    private String season;
+    private String regionName;
+    //private int numberOfParticipateTeam;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class TournamentPlace {
+        String locationCity;
+        String locationArena;
+    }
 }

@@ -15,7 +15,7 @@ public class PlayerPlayedGame {
     @MapsId("gameId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "gameId", nullable = false)
-    private Game game;
+    private SingleGame singleGame;
 
     @MapsId("playerId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

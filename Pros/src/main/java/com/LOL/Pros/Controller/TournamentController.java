@@ -1,7 +1,6 @@
 package com.LOL.Pros.Controller;
 
 import com.LOL.Pros.Service.TournamentService;
-import com.LOL.Pros.dto.request.DomesticRequest;
 import com.LOL.Pros.dto.request.TournamentRequest;
 import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.TournamentResponse;
@@ -25,12 +24,12 @@ public class TournamentController {
     }
 
     @PostMapping("/create")
-    ApiResponse<TournamentResponse> createDomesticTournament(@RequestBody DomesticRequest request)
+    ApiResponse<TournamentResponse> createDomesticTournament(@RequestBody TournamentRequest request)
     {
         return ApiResponse.<TournamentResponse>builder()
                 .code(100)
                 .message("Create new tournament success")
-                .data(tournamentService.createDomesticTournament(request))
+                .data(tournamentService.createTournament(request))
                 .build();
     }
 }

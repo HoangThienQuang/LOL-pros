@@ -2,7 +2,6 @@ package com.LOL.Pros.Service;
 
 import com.LOL.Pros.Entity.PlayerTeamHistory;
 import com.LOL.Pros.Entity.Team;
-import com.LOL.Pros.Entity.TeamSponsor;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Repository.PlayerRepository;
@@ -16,15 +15,14 @@ import com.LOL.Pros.dto.response.TeamResponse;
 import com.LOL.Pros.dto.response.TeamUpdateResponse;
 import com.LOL.Pros.dto.transferDTO.TranferTeamGetAll;
 import com.LOL.Pros.dto.transferDTO.TransferPlayerTeam;
+import com.LOL.Pros.dto.transferDTO.TransferUpdateCaptain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,11 +69,14 @@ public class TeamService {
         //Kiểm tra trong db có tồn tại player khớp với player trong request hay không
         if (request.getCaptainIngameName() != null)
             team.setTeamCaptain(playerRepository.findByIngameName(request.getCaptainIngameName()).orElseThrow(()-> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
-        //lấy danh sách tuyển thủ trong request thành 1 list<String>
-        if (request.getPlayerTeamIngameName() != null) {
-            List<String> playerList = Arrays.asList(request.getPlayerTeamIngameName().split(","));
-            AddTeamPlayer(playerList, team);
+        if (StringUtils.hasText(request.getTeamName())) {
+            team.setTeamName(request.getTeamName());
         }
+        //lấy danh sách tuyển thủ trong request thành 1 list<String>
+        //if (request.getPlayerTeamIngameName() != null) {
+        //    List<String> playerList = Arrays.asList(request.getPlayerTeamIngameName().split(","));
+        //    AddTeamPlayer(playerList, team);
+        //}
         //team.setRegion(regionRepository.findByRegionName(request.getRegion()).orElseThrow(()-> new AppException(ResponseCode.REGION_NOT_EXISTED)));
 
         teamRepository.save(team);
@@ -83,34 +84,34 @@ public class TeamService {
                 .teamName(team.getTeamName())
                 .captainName(team.getTeamCaptain().getIngameName())
                 //.region(team.getRegion().getRegionName()) ; bảng Team-region là 1 bảng khác
-                .teamPlayers(getTeamPlayers(team.getPlayerTeams()))
+                //.teamPlayers(getTeamPlayers(team.getPlayerTeams()))
                 .build();
     }
 
     //Thêm player vào team
-    public void AddTeamPlayer(List<String> players, Team team)
-    {
-        for (String player : players)
-        {
-            //kiem tra su ton tai cua player va team trong DB
-            if (playerRepository.findByIngameName(player).isPresent() && teamRepository.findByTeamName(team.getTeamName()).isPresent()) {
-                //tạo 1 playerTeam/contract giữa team và player
-                PlayerTeam playerTeam = new PlayerTeam();
-                playerTeam.setPlayerTeamName("Contract " + player + " and " + team.getTeamName());
-                playerTeam.setTeam(team);
-                Player player1 = playerRepository.findByIngameName(player).orElseThrow(() -> new AppException(ResponseCode.NOT_IMPLEMENT_EXCEPTION));
-                playerTeam.setPlayer(player1);
-                playerTeamRepository.save(playerTeam);
-                //thêm playerTeam vào trong Team
-                team.getPlayerTeams().add(playerTeam);
-                //thêm playerTeam vào trong player
-                player1.getPlayerTeams().add(playerTeam);
-                //set team hien tai cho player
-                player1.setCurrentTeam(team.getTeamName());
-                log.info("Add " + player + " to " + team.getTeamName());
-            }
-        }
-    }
+    //    public void AddTeamPlayer(List<String> players, Team team)
+    //    {
+    //        for (String player : players)
+    //        {
+    //            //kiem tra su ton tai cua player va team trong DB
+    //            if (playerRepository.findByIngameName(player).isPresent() && teamRepository.findByTeamName(team.getTeamName()).isPresent()) {
+    //                //tạo 1 playerTeam/contract giữa team và player
+    //                PlayerTeam playerTeam = new PlayerTeam();
+    //                playerTeam.setPlayerTeamName("Contract " + player + " and " + team.getTeamName());
+    //                playerTeam.setTeam(team);
+    //                Player player1 = playerRepository.findByIngameName(player).orElseThrow(() -> new AppException(ResponseCode.NOT_IMPLEMENT_EXCEPTION));
+    //                playerTeam.setPlayer(player1);
+    //                playerTeamRepository.save(playerTeam);
+    //                //thêm playerTeam vào trong Team
+    //                team.getPlayerTeams().add(playerTeam);
+    //                //thêm playerTeam vào trong player
+    //                player1.getPlayerTeams().add(playerTeam);
+    //                //set team hien tai cho player
+    //                player1.setCurrentTeam(team.getTeamName());
+    //                log.info("Add " + player + " to " + team.getTeamName());
+    //            }
+    //        }
+    //    }
 
     private Set<String> getTeamPlayers(Set<PlayerTeamHistory> playerTeams)
     {
@@ -119,19 +120,22 @@ public class TeamService {
 
     private TranferTeamGetAll convertToPlayerTeamDTO(Team team)
     {
-        List<TransferPlayerTeam> DTOList = team.getPlayerTeams()
+        List<PlayerTeamHistory> playerTeamHistories = this.playerTeamRepository.findByTeam(team);
+
+        List<TransferPlayerTeam> DTOList = playerTeamHistories
                 .stream().map(playerTeam ->
                         new TransferPlayerTeam(
-                                playerTeam.getPlayer().getPlayerName(),
+                                playerTeam.getPlayer().getPlayerFirstName(),
+                                playerTeam.getPlayer().getPlayerLastMiddleName(),
                                 playerTeam.getTeam().getTeamName(),
-                                playerTeam.getStartDate(),
+                                playerTeam.getId().getStartDate(),
                                 playerTeam.getEndDate()))
                 .toList();
 
         return TranferTeamGetAll.builder()
                 .teamName(team.getTeamName())
-                .sponsors(team.getSponsors())
-                .captainName(team.getCaptain().getPlayerName())
+                //.sponsors(team.getSponsors())
+                .captainName(team.getTeamCaptain().getPlayerLastMiddleName())
                 .teamPlayer(DTOList)
                 .build();
     }
@@ -152,5 +156,20 @@ public class TeamService {
     public Team GetTeamByTeamName(String teamName)
     {
         return teamRepository.findByTeamName(teamName).orElseThrow(() -> new AppException(ResponseCode.TEAM_NOT_EXIST));
+    }
+
+    public TransferUpdateCaptain updateCaptain(TeamUpdateCaptainRequest request) {
+        Team team = teamRepository.findByTeamName(request.getTeamName()).orElseThrow(()-> new AppException(ResponseCode.TEAM_NOT_EXIST));
+
+        if (request.getPlayerIngameName() != null) {
+            team.setTeamCaptain(playerRepository.findByIngameName(request.getPlayerIngameName()).orElseThrow(()-> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
+        }
+
+        teamRepository.save(team);
+
+        return TransferUpdateCaptain.builder()
+                .teamName(team.getTeamName())
+                .captainName(team.getTeamCaptain().getIngameName())
+                .build();
     }
 }

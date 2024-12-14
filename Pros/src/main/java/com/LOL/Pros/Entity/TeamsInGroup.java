@@ -19,7 +19,7 @@ public class TeamsInGroup {
     @MapsId("groupId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "groupId", nullable = false)
-    private Group group;
+    private TournamentGroup tournamentGroup;
 
     @Column(name = "draw", length = 100)
     private String draw;

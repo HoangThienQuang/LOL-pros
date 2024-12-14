@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class PlayerTeamHistory {
     @EmbeddedId
     private PlayerTeamHistoryId id;

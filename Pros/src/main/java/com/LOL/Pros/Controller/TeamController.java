@@ -8,6 +8,7 @@ import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.TeamResponse;
 import com.LOL.Pros.dto.response.TeamUpdateResponse;
 import com.LOL.Pros.dto.transferDTO.TranferTeamGetAll;
+import com.LOL.Pros.dto.transferDTO.TransferUpdateCaptain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,9 +52,9 @@ public class TeamController {
     }
 
     @PostMapping("/update/captain")
-    ApiResponse<TranferTeamGetAll> updateCaptain(@RequestBody TeamUpdateCaptainRequest request)
+    ApiResponse<TransferUpdateCaptain> updateCaptain(@RequestBody TeamUpdateCaptainRequest request)
     {
-        return ApiResponse.<TranferTeamGetAll>builder()
+        return ApiResponse.<TransferUpdateCaptain>builder()
                 .code(100)
                 .message("Update captain team success")
                 .data(teamService.updateCaptain(request))

@@ -1,12 +1,14 @@
 package com.LOL.Pros.Service;
 
 import com.LOL.Pros.Entity.Player;
+import com.LOL.Pros.Entity.PlayerTeamHistory;
 import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Enum.Role;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Mapper.PlayerMapper;
 import com.LOL.Pros.Repository.PlayerRepository;
+import com.LOL.Pros.Repository.PlayerTeamRepository;
 import com.LOL.Pros.Repository.TeamRepository;
 import com.LOL.Pros.dto.request.PlayerRequest;
 import com.LOL.Pros.dto.response.PlayerResponse;
@@ -25,6 +27,8 @@ public class PlayerService {
     private PlayerMapper playerMapper;
     @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private PlayerTeamRepository playerTeamRepository;
 
     public List<TransferPlayerGetAll> getAllPlayer()
     {
@@ -48,14 +52,14 @@ public class PlayerService {
         return toPlayerResponse(playerRepository.findById(playerId).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
     }
 
-    public PlayerResponse getPlayerByFName(String playerFirstName)
+    public List<PlayerResponse> getPlayerByFName(String playerFirstName)
     {
-        return toPlayerResponse(playerRepository.findByPlayerFName(playerFirstName).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
+        return playerRepository.findByPlayerFirstName(playerFirstName).stream().map(this::toPlayerResponse).collect(Collectors.toList());
     }
 
-    public PlayerResponse getPlayerByLName(String playerLastMiddleName)
+    public List<PlayerResponse> getPlayerByLName(String playerLastMiddleName)
     {
-        return toPlayerResponse(playerRepository.findByPlayerFName(playerLastMiddleName).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
+        return playerRepository.findByPlayerLastMiddleName(playerLastMiddleName).stream().map(this::toPlayerResponse).collect(Collectors.toList());
     }
 
     public List<TransferPlayerGetAll> getPlayerByNation(String nation)
@@ -65,7 +69,7 @@ public class PlayerService {
         //return playerRepository.findAll();
     }
 
-    public List<TransferPlayerGetAll> getPlayerByRole(Role role)
+    public List<TransferPlayerGetAll> getPlayerByRole(String role)
     {
         List<Player> players = playerRepository.findByRole(role);
         return players.stream().map(this::toTransferPlayerGetAll).collect(Collectors.toList());
@@ -74,8 +78,9 @@ public class PlayerService {
 
     public List<TransferPlayerGetAll> getPlayerByTeam(Team team)
     {
-        String teamName = team.getTeamName();
-        List<Player> players = playerRepository.findByCurrentTeam(teamName);
+        List<PlayerTeamHistory> playerTeamHistories = playerTeamRepository.findByTeam(team);
+
+        List<Player> players = playerTeamHistories.stream().map(PlayerTeamHistory::getPlayer).toList();
         return players.stream().map(this::toTransferPlayerGetAll).collect(Collectors.toList());
         //return playerRepository.findAll();
     }
@@ -107,7 +112,7 @@ public class PlayerService {
     }
     private Role checkRole(String role)
     {
-        if (role ==null)
+        if (role == null)
             return null;
         return switch (role.toUpperCase()) {
             case "TOP" -> Role.TOP;

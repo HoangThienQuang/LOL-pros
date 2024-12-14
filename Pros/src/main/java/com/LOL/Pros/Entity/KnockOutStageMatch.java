@@ -15,7 +15,7 @@ public class KnockOutStageMatch {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "matchId", nullable = false)
-    private Match match;
+    private GameMatch gameMatch;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tournamentId", nullable = false)
