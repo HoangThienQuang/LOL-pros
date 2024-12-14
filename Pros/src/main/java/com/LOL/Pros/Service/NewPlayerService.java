@@ -17,15 +17,15 @@ public class NewPlayerService {
     @Autowired
     private PlayerRepository playerRepository;
 
-    public returnType functionName(input value)
-    {
-        //code
-        return returnType;
-    }
+    //public returnType functionName(input value)
+    //{
+        //TODO codes
+        //return returnType;
+    //}
 
     public PlayerResponse createNewPlayer(PlayerRequest request)
     {
-        if (playerRepository.findByingameName(request.getIngameName()).isPresent())
+        if (playerRepository.findByIngameName(request.getIngameName()).isPresent())
             throw new AppException(ResponseCode.PLAYER_EXISTED);
 
         Player player = Player.builder()

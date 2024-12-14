@@ -1,5 +1,6 @@
 package com.LOL.Pros.dto.response;
 
+import com.LOL.Pros.Entity.PlayerTeamHistory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +14,5 @@ import java.util.Set;
 @Builder
 public class TeamAddPlayerResponse {
     private String teamName;
-    private Set<PlayerTeam> playerTeam;
+    private Set<PlayerTeamHistory> playerTeam;
 }

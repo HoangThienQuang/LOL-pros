@@ -1,6 +1,8 @@
 package com.LOL.Pros.Service;
 
 
+import com.LOL.Pros.Entity.RegionalTournament;
+import com.LOL.Pros.Entity.Tournament;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Mapper.TournamentMapper;
@@ -41,7 +43,7 @@ public class TournamentService {
 
 
 
-    private DomesticTournament toDomesticTournament(DomesticRequest request)
+    private RegionalTournament toDomesticTournament(DomesticRequest request)
     {
         return DomesticTournament.builder()
                 .tournamentName(request.getTournamentName())
@@ -54,7 +56,7 @@ public class TournamentService {
                 .build();
     }
 
-    private TournamentResponse toTournamentResponse(DomesticTournament tournament)
+    private TournamentResponse toTournamentResponse(RegionalTournament tournament)
     {
         return TournamentResponse.builder()
                 .tournamentName(tournament.getTournamentName())

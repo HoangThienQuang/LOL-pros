@@ -14,7 +14,8 @@ import java.time.LocalDate;
 public class PlayerResponse {
     private String playerId;
     private String ingameName;
-    private String playerName;
+    private String playerFirstName;
+    private String playerLastMiddleName;
     private LocalDate dob;
     private String nationality;
     private String role;

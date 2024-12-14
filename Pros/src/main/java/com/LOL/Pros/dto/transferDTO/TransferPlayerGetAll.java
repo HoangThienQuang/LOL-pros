@@ -14,10 +14,11 @@ import java.time.LocalDate;
 @Builder
 public class TransferPlayerGetAll {
     private String ingameName;
-    private String playerName;
+    private String playerFirstName;
+    private String playerLastMiddleName;
     private LocalDate dob;
     private String nationality;
-    private Role role;
+    private String role;
     private String team;
 
 }

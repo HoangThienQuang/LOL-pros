@@ -1,5 +1,8 @@
 package com.LOL.Pros.Service;
 
+import com.LOL.Pros.Entity.PlayerTeamHistory;
+import com.LOL.Pros.Entity.Team;
+import com.LOL.Pros.Entity.TeamSponsor;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
 import com.LOL.Pros.Repository.PlayerRepository;
@@ -47,17 +50,14 @@ public class TeamService {
     {
         if (teamRepository.findByTeamName(request.getTeamName()).isPresent())
             throw new AppException(ResponseCode.TEAM_EXISTED);
-        Set<String> sponsors = new HashSet<>(Arrays.asList(request.getSponsors().split(",")));
         Team team = Team.builder()
                 .teamName(request.getTeamName())
-                .sponsors(sponsors)
                 .build();
 
         teamRepository.save(team);
 
         return TeamResponse.builder()
                 .teamName(request.getTeamName())
-                .sponsors(sponsors)
                 .build();
     }
 
@@ -67,23 +67,22 @@ public class TeamService {
         //kiểm tra trong db có tồn tại team khớp với team trong request hay không
         Team team = teamRepository.findByTeamName(request.getTeamName()).orElseThrow(()-> new AppException(ResponseCode.TEAM_NOT_EXIST));
         //ép kiểu của sponsors trong request thành dạng list sau đó thêm list vào trong sponsors
-        team.getSponsors().addAll(Arrays.asList(request.getSponsors().split(",")));
+        //team.getSponsors().addAll(Arrays.asList(request.getSponsors().split(",")));
         //Kiểm tra trong db có tồn tại player khớp với player trong request hay không
         if (request.getCaptainIngameName() != null)
-            team.setCaptain(playerRepository.findByIngameName(request.getCaptainIngameName()).orElseThrow(()-> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
+            team.setTeamCaptain(playerRepository.findByIngameName(request.getCaptainIngameName()).orElseThrow(()-> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
         //lấy danh sách tuyển thủ trong request thành 1 list<String>
         if (request.getPlayerTeamIngameName() != null) {
             List<String> playerList = Arrays.asList(request.getPlayerTeamIngameName().split(","));
             AddTeamPlayer(playerList, team);
         }
-        team.setRegion(regionRepository.findByRegionName(request.getRegion()).orElseThrow(()-> new AppException(ResponseCode.REGION_NOT_EXISTED)));
+        //team.setRegion(regionRepository.findByRegionName(request.getRegion()).orElseThrow(()-> new AppException(ResponseCode.REGION_NOT_EXISTED)));
 
         teamRepository.save(team);
         return TeamUpdateResponse.builder()
                 .teamName(team.getTeamName())
-                .sponsors(team.getSponsors())
-                .captainName(team.getCaptain().getIngameName())
-                .region(team.getRegion().getRegionName())
+                .captainName(team.getTeamCaptain().getIngameName())
+                //.region(team.getRegion().getRegionName()) ; bảng Team-region là 1 bảng khác
                 .teamPlayers(getTeamPlayers(team.getPlayerTeams()))
                 .build();
     }
@@ -113,9 +112,9 @@ public class TeamService {
         }
     }
 
-    private Set<String> getTeamPlayers(Set<PlayerTeam> playerTeams)
+    private Set<String> getTeamPlayers(Set<PlayerTeamHistory> playerTeams)
     {
-        return  playerTeams.stream().map(playerTeam -> playerTeam.getPlayer().getPlayerName()).collect(Collectors.toSet());
+        return  playerTeams.stream().map(playerTeam -> playerTeam.getPlayer().getPlayerId()).collect(Collectors.toSet());
     }
 
     private TranferTeamGetAll convertToPlayerTeamDTO(Team team)
@@ -136,6 +135,8 @@ public class TeamService {
                 .teamPlayer(DTOList)
                 .build();
     }
+
+    /*
     public TranferTeamGetAll updateCaptain(TeamUpdateCaptainRequest request)
     {
         //Kiem tra team co ton tai hay khong
@@ -146,6 +147,7 @@ public class TeamService {
         teamRepository.save(team);
         return convertToPlayerTeamDTO(team);
     }
+     */
 
     public Team GetTeamByTeamName(String teamName)
     {

@@ -1,5 +1,7 @@
 package com.LOL.Pros.Service;
 
+import com.LOL.Pros.Entity.Player;
+import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Enum.Role;
 import com.LOL.Pros.Exception.AppException;
 import com.LOL.Pros.Exception.ResponseCode;
@@ -33,8 +35,7 @@ public class PlayerService {
 
     public PlayerResponse createPlayer(PlayerRequest request)
     {
-        if (playerRepository.findByPlayerName(request.getPlayerName()).isPresent()
-                && playerRepository.findByIngameName(request.getIngameName()).isPresent()
+        if (playerRepository.findByIngameName(request.getIngameName()).isPresent()
         )
             throw new AppException(ResponseCode.PLAYER_EXISTED);
         Player player = toPlayer(request);
@@ -47,9 +48,14 @@ public class PlayerService {
         return toPlayerResponse(playerRepository.findById(playerId).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
     }
 
-    public PlayerResponse getPlayerByName(String playerName)
+    public PlayerResponse getPlayerByFName(String playerFirstName)
     {
-        return toPlayerResponse(playerRepository.findByPlayerName(playerName).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
+        return toPlayerResponse(playerRepository.findByPlayerFName(playerFirstName).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
+    }
+
+    public PlayerResponse getPlayerByLName(String playerLastMiddleName)
+    {
+        return toPlayerResponse(playerRepository.findByPlayerFName(playerLastMiddleName).orElseThrow(() -> new AppException(ResponseCode.PLAYER_NOT_EXIST)));
     }
 
     public List<TransferPlayerGetAll> getPlayerByNation(String nation)
@@ -79,10 +85,11 @@ public class PlayerService {
     {
         return Player.builder()
                 .ingameName(request.getIngameName())
-                .playerName(request.getPlayerName())
+                .playerFirstName(request.getPlayerFirstName())
+                .playerLastMiddleName(request.getPlayerLastMiddleName())
                 .dob(request.getDob())
                 .nationality(request.getNationality())
-                .role(checkRole(request.getRole()))
+                .role(checkRole(request.getRole()).toString())
                 .build();
     }
 
@@ -91,8 +98,9 @@ public class PlayerService {
         return PlayerResponse.builder()
                 .playerId(player.getPlayerId())
                 .ingameName(player.getIngameName())
-                .playerName(player.getPlayerName())
-                .role(player.getRole().toString())
+                .playerFirstName(player.getPlayerFirstName())
+                .playerLastMiddleName(player.getPlayerLastMiddleName())
+                .role(player.getRole())
                 .nationality(player.getNationality())
                 .dob(player.getDob())
                 .build();
@@ -114,12 +122,13 @@ public class PlayerService {
     private TransferPlayerGetAll toTransferPlayerGetAll(Player player)
     {
         return TransferPlayerGetAll.builder()
-                .playerName(player.getPlayerName())
+                .playerFirstName(player.getPlayerFirstName())
+                .playerLastMiddleName(player.getPlayerLastMiddleName())
                 .ingameName(player.getIngameName())
                 .dob(player.getDob())
                 .nationality(player.getNationality())
                 .role(player.getRole())
-                .team(player.getCurrentTeam())
+                //.team(player.getCurrentTeam())
                 .build();
     }
 }

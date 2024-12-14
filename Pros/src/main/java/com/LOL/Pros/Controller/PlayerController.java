@@ -1,5 +1,6 @@
 package com.LOL.Pros.Controller;
 
+import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Enum.Role;
 import com.LOL.Pros.Service.NewPlayerService;
 import com.LOL.Pros.Service.PlayerService;
@@ -60,12 +61,12 @@ public class PlayerController { // Controller <- Service <- repo(quản lý bở
 
     //get player by name
     @PostMapping("/playerName")
-    ApiResponse<PlayerResponse> getPlayerByName(@RequestBody String playerName)
+    ApiResponse<PlayerResponse> getPlayerByFName(@RequestBody String playerFirstName)
     {
         return ApiResponse.<PlayerResponse>builder()
                 .code(100)
                 .message("Get player success")
-                .data(playerService.getPlayerByName(playerName))
+                .data(playerService.getPlayerByFName(playerFirstName))
                 .build();
     }
 
