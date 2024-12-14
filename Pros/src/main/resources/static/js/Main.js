@@ -55,12 +55,12 @@ function handleSubNavClick(event) {
 }
 //----------------------------------------testLoadTableAllPage----------------------------------------
 let currentPage = 1;
-const rowsPerPage = 5;
+const rowsPerPage = 10;
 let data = [];
-function LoadSubPage()
+async function LoadSubPage()
 {
-    data = loadAPIData(document.getElementById('sub-page').getAttribute('current-page'));
-    displayTable(data, currentPage);
+    data = await loadAPIData(document.getElementById('sub-page').getAttribute('current-page'));
+    displayTable(data['data'], currentPage);
     setupPaginationEvents2();
     //let pageName = document.getElementById('sub-page').getAttribute('current-page');
     updatePagination2();
@@ -188,17 +188,17 @@ function updatePagination2()
     setupPaginationEvents2()
 }
 
-function loadAPIData(page)
+async function loadAPIData(page)
 {
     switch(page)
     {
         // hardcode data in each case will replace with response API json
         case 'player':
-            data =[ 
-                { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
-                { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" },
-            ];
-            //data = getDataFromAPI(page);
+            // data =[
+            //     { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
+            //     { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" },
+            // ];
+            data = await getDataFromAPI(page);
             return data;
         case 'team':
             data =[ 
@@ -282,7 +282,8 @@ function loadAPIData(page)
 
 async function getDataFromAPI(pageName)
 {
-    let apiRequest = 'https://localhost:8080/' + pageName +'/all';
+    let apiRequest = 'http://localhost:8080/' + pageName +'/all';
+    console.log("apiRequest: ", apiRequest);
     try{
         const response = await fetch(apiRequest);
         if(!response.ok)
