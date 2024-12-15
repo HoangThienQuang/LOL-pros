@@ -11,7 +11,9 @@ import com.LOL.Pros.Repository.PlayerRepository;
 import com.LOL.Pros.Repository.PlayerTeamRepository;
 import com.LOL.Pros.Repository.TeamRepository;
 import com.LOL.Pros.dto.request.PlayerRequest;
+import com.LOL.Pros.dto.request.Update.PlayerUpdateRequest;
 import com.LOL.Pros.dto.response.PlayerResponse;
+import com.LOL.Pros.dto.response.PlayerUpdateResponse;
 import com.LOL.Pros.dto.transferDTO.TransferPlayerGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,11 @@ public class PlayerService {
         Player player = toPlayer(request);
         playerRepository.save(player);
         return toPlayerResponse(player);
+    }
+
+    public PlayerUpdateResponse updatePlayer(PlayerUpdateRequest request)
+    {
+        return null;
     }
 
     public PlayerResponse getPlayerById(String playerId)
