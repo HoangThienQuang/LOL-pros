@@ -1,7 +1,6 @@
 package com.LOL.Pros.Repository;
 
 import com.LOL.Pros.Entity.Player;
-import com.LOL.Pros.Enum.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;

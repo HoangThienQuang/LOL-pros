@@ -25,6 +25,10 @@ function loadPage(page) {
             // }
             if(page !== 'home')
                 LoadSubPage();
+            if (page === 'player') {
+                document.getElementById("saveChangesBtn").addEventListener("click", () => updatePlayer());
+                document.getElementById("createBtn").addEventListener("click", () => createPlayer());
+            }
         })
         .catch(error => {
             console.error('Error when loading page: ', error);
@@ -60,7 +64,7 @@ let data = [];
 async function LoadSubPage()
 {
     data = await loadAPIData(document.getElementById('sub-page').getAttribute('current-page'));
-    displayTable(data['data'], currentPage);
+    displayTable(data, currentPage);
     setupPaginationEvents2();
     //let pageName = document.getElementById('sub-page').getAttribute('current-page');
     updatePagination2();
@@ -90,7 +94,16 @@ function displayTable(data, currentPage)
             <td><a href="playerInfo.html" onclick="loadPlayerInfo(event)">${item[keyItem[0]]}</a></td>
             <td>${item[keyItem[1]]}</td>
             <td>${item[keyItem[2]]}</td>
+            <td>${item[keyItem[3]]}</td>
+            <td>${item[keyItem[4]]}</td>
+            <td>${item[keyItem[5]]}</td>
+            <td>${item[keyItem[6]]}</td>
+            <button type="button" class="update-btn" data-bs-toggle="modal" data-bs-target="#updatePlayer">Update</button>
         `;
+
+        row.querySelector('.update-btn').addEventListener('click', () => {
+            showPlayerModel(item, keyItem);
+        });
         tbody.appendChild(row);
     });
 }
@@ -198,8 +211,7 @@ async function loadAPIData(page)
             //     { "PlayerName": "Levi", "Region": "VietNam", "Team": "GAM" },
             //     { "PlayerName": "Bang", "Region": "Korea", "Team": "T1" },
             // ];
-            data = await getDataFromAPI(page);
-            return data;
+            return await getDataFromAPI(page);
         case 'team':
             data =[ 
                 { "TeamName": "GAM", "Region": "VietNam", "Sponsor": "GAM" },
@@ -288,7 +300,8 @@ async function getDataFromAPI(pageName)
         const response = await fetch(apiRequest);
         if(!response.ok)
             throw new Error(`${response.status} ... Opzz we can't get anydata from that !`)
-        return await response.json();
+        const json = await response.json();
+        return json['data'];
     }
     catch(error)
     {
@@ -327,6 +340,100 @@ function SearchBtnAction()
     var data = searchOptionData(optionSelected);
     displayTable(data, currentPage);
     updatePagination2();
+}
+
+function showPlayerModel(item, keyItem) {
+    document.getElementById("ingame-name").setAttribute("value", item[keyItem[0]]);
+    document.getElementById("first-name").setAttribute("value", item[keyItem[1]]);
+    document.getElementById("middle-and-last-name").setAttribute("value", item[keyItem[2]]);
+    document.getElementById("date-of-birth").setAttribute("value", item[keyItem[3]]);
+    document.getElementById("nationality").setAttribute("value", item[keyItem[4]]);
+    document.getElementById("role").setAttribute("value", item[keyItem[5]]);
+    document.getElementById("team").setAttribute("value", item[keyItem[6]]);
+}
+
+function updatePlayer() {
+    // Gather form input values
+    const ingameName = document.getElementById("ingame-name").value;
+    const firstName = document.getElementById("first-name").value;
+    const middleAndLastName = document.getElementById("middle-and-last-name").value;
+    const dob = document.getElementById("date-of-birth").value;
+    const nationality = document.getElementById("nationality").value;
+    const role = document.getElementById("role").value;
+    const team = document.getElementById("team").value;
+
+    // Construct request body
+    const playerUpdateRequest = {
+        ingameName: ingameName,
+        playerFirstName: firstName,
+        playerLastMiddleName: middleAndLastName,
+        dob: dob,
+        nationality: nationality,
+        role: role,
+        team: team
+    };
+
+    // Update player API call
+    fetch("http://localhost:8080/player/update", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(playerUpdateRequest)
+    }).then(response => {
+            if (response.ok) {
+                alert("Player information updated successfully!");
+                document.querySelector("#updatePlayer .btn-close").click();
+
+                LoadSubPage();
+            } else {
+                alert("Failed to update player information.");
+            }
+    }).catch(error => {
+        console.error("Error updating player information:", error);
+        alert("An error occurred while updating the player information.");
+    });
+}
+
+function createPlayer() {
+    // Gather form input values
+    const ingameName = document.getElementById("ingame-name-create").value;
+    const firstName = document.getElementById("first-name-create").value;
+    const middleAndLastName = document.getElementById("middle-and-last-name-create").value;
+    const dob = document.getElementById("date-of-birth-create").value;
+    const nationality = document.getElementById("nationality-create").value;
+    const role = document.getElementById("role-create").value;
+
+    // Construct request body
+    const playerCreateRequest = {
+        ingameName: ingameName,
+        playerFirstName: firstName,
+        playerLastMiddleName: middleAndLastName,
+        dob: dob,
+        nationality: nationality,
+        role: role
+    };
+
+    // Create player API call
+    fetch("http://localhost:8080/player/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(playerCreateRequest)
+    }).then(response => {
+        if (response.ok) {
+            alert("Player created successfully!");
+            document.querySelector("#createPlayer .btn-close").click();
+
+            LoadSubPage();
+        } else {
+            alert("Failed to create player.");
+        }
+    }).catch(error => {
+        console.error("Error creating player:", error);
+        alert("An error occurred while creating the player.");
+    });
 }
 
 function searchOptionData(optionSelected)

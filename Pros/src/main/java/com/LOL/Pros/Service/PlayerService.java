@@ -11,12 +11,19 @@ import com.LOL.Pros.Repository.PlayerRepository;
 import com.LOL.Pros.Repository.PlayerTeamRepository;
 import com.LOL.Pros.Repository.TeamRepository;
 import com.LOL.Pros.dto.request.PlayerRequest;
+import com.LOL.Pros.dto.request.Update.PlayerUpdateRequest;
 import com.LOL.Pros.dto.response.PlayerResponse;
+import com.LOL.Pros.dto.response.PlayerUpdateResponse;
 import com.LOL.Pros.dto.transferDTO.TransferPlayerGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,18 +40,70 @@ public class PlayerService {
     public List<TransferPlayerGetAll> getAllPlayer()
     {
         List<Player> players = playerRepository.findAll();
-        return players.stream().map(this::toTransferPlayerGetAll).collect(Collectors.toList());
-        //return playerRepository.findAll();
+        List<PlayerTeamHistory> playerTeamHistories = playerTeamRepository.findPlayerTeamHistoriesByPlayerInAndEndDateIsNull(players);
+
+        Map<Player, List<PlayerTeamHistory>> playerTeamHistoriesMap = playerTeamHistories.stream().collect(Collectors.groupingBy(PlayerTeamHistory::getPlayer));
+
+        return players.stream().map(player -> this.toTransferPlayerGetAll(player,
+                playerTeamHistoriesMap.getOrDefault(player, new ArrayList<>()))).collect(Collectors.toList());
     }
 
     public PlayerResponse createPlayer(PlayerRequest request)
     {
-        if (playerRepository.findByIngameName(request.getIngameName()).isPresent()
-        )
+        if (playerRepository.findByIngameName(request.getIngameName()).isPresent()) {
             throw new AppException(ResponseCode.PLAYER_EXISTED);
+        }
         Player player = toPlayer(request);
         playerRepository.save(player);
         return toPlayerResponse(player);
+    }
+
+    @Transactional
+    public PlayerUpdateResponse updatePlayer(PlayerUpdateRequest request)
+    {
+        Optional<Player> playerOptional = playerRepository.findByIngameName(request.getIngameName());
+        if (playerOptional.isEmpty()) {
+            throw new AppException(ResponseCode.PLAYER_NOT_EXIST);
+        }
+
+        Optional<Team> teamOptional = teamRepository.findByTeamName(request.getTeam());
+        if (teamOptional.isEmpty()) {
+            throw new AppException(ResponseCode.TEAM_NOT_EXIST);
+        }
+
+        Player player = playerOptional.get();
+        Team team = teamOptional.get();
+
+        if (!Objects.equals(player.getPlayerFirstName(), request.getPlayerFirstName())) {
+            player.setPlayerFirstName(request.getPlayerFirstName());
+        }
+        if (!Objects.equals(player.getPlayerLastMiddleName(), request.getPlayerLastMiddleName())) {
+            player.setPlayerFirstName(request.getPlayerFirstName());
+        }
+        if (!Objects.equals(player.getDob(), request.getDob())) {
+            player.setPlayerFirstName(request.getPlayerFirstName());
+        }
+        if (!Objects.equals(player.getNationality(), request.getNationality())) {
+            player.setPlayerFirstName(request.getPlayerFirstName());
+        }
+        if (!Objects.equals(player.getRole(), request.getRole())) {
+            player.setPlayerFirstName(request.getPlayerFirstName());
+        }
+
+        playerRepository.save(player);
+
+        this.transferPlayerToTeam(player, team);
+
+        return new PlayerUpdateResponse(player.getPlayerId(), player.getIngameName(), player.getPlayerFirstName(),
+                player.getPlayerLastMiddleName(), player.getDob(), player.getNationality(), player.getRole());
+    }
+
+    private void transferPlayerToTeam(Player player, Team team) {
+        try {
+            playerTeamRepository.updatePlayerTeam(player.getPlayerId(), team.getTeamId());
+        } catch (Exception e) {
+            throw new AppException(ResponseCode.NOT_IMPLEMENT_EXCEPTION);
+        }
     }
 
     public PlayerResponse getPlayerById(String playerId)
@@ -134,6 +193,23 @@ public class PlayerService {
                 .nationality(player.getNationality())
                 .role(player.getRole())
                 //.team(player.getCurrentTeam())
+                .build();
+    }
+
+    private TransferPlayerGetAll toTransferPlayerGetAll(Player player, List<PlayerTeamHistory> playerTeamHistories)
+    {
+        String team = null;
+        if (!playerTeamHistories.isEmpty()) {
+            team = playerTeamHistories.get(0).getTeam().getTeamName();
+        }
+        return TransferPlayerGetAll.builder()
+                .playerFirstName(player.getPlayerFirstName())
+                .playerLastMiddleName(player.getPlayerLastMiddleName())
+                .ingameName(player.getIngameName())
+                .dob(player.getDob())
+                .nationality(player.getNationality())
+                .role(player.getRole())
+                .team(team)
                 .build();
     }
 }

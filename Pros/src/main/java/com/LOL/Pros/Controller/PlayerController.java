@@ -1,16 +1,16 @@
 package com.LOL.Pros.Controller;
 
 import com.LOL.Pros.Entity.Team;
-import com.LOL.Pros.Enum.Role;
 import com.LOL.Pros.Service.NewPlayerService;
 import com.LOL.Pros.Service.PlayerService;
 import com.LOL.Pros.Service.TeamService;
 import com.LOL.Pros.dto.request.PlayerRequest;
+import com.LOL.Pros.dto.request.Update.PlayerUpdateRequest;
 import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.PlayerResponse;
+import com.LOL.Pros.dto.response.PlayerUpdateResponse;
 import com.LOL.Pros.dto.transferDTO.TransferPlayerGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +45,17 @@ public class PlayerController { // Controller <- Service <- repo(quản lý bở
                 .code(100)
                 .message("Create player success")
                 .data(newPlayerService.createNewPlayer(request))
+                .build();
+    }
+
+    //update Player
+    @PostMapping("/update")
+    ApiResponse<PlayerUpdateResponse> updatePlayer(@RequestBody PlayerUpdateRequest request)
+    {
+        return ApiResponse.<PlayerUpdateResponse>builder()
+                .code(100)
+                .message(request.getIngameName() + " update success")
+                .data(playerService.updatePlayer(request))
                 .build();
     }
 
