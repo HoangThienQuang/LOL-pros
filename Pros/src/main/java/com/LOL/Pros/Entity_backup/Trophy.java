@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class Trophy {
     @EmbeddedId
     private TrophyId id;

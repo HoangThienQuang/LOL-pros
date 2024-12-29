@@ -170,6 +170,22 @@
     background-color: #8ed5fb;
     margin-left: 20px;
 }
+.update-btn
+{
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #8ed5fb;
+    margin-left: 20px;
+}
+.create-btn
+{
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #8ed5fb;
+    margin-left: 20px;
+}
 
 /* ------------------------------------------------------ */
 

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 @Table(name = "TeamSponsors")
 public class TeamSponsor {
     @EmbeddedId

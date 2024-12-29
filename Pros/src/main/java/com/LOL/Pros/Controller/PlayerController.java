@@ -1,15 +1,16 @@
 package com.LOL.Pros.Controller;
 
-import com.LOL.Pros.Enum.Role;
+import com.LOL.Pros.Entity.Team;
 import com.LOL.Pros.Service.NewPlayerService;
 import com.LOL.Pros.Service.PlayerService;
 import com.LOL.Pros.Service.TeamService;
 import com.LOL.Pros.dto.request.PlayerRequest;
+import com.LOL.Pros.dto.request.Update.PlayerUpdateRequest;
 import com.LOL.Pros.dto.response.ApiResponse;
 import com.LOL.Pros.dto.response.PlayerResponse;
+import com.LOL.Pros.dto.response.PlayerUpdateResponse;
 import com.LOL.Pros.dto.transferDTO.TransferPlayerGetAll;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,6 +48,17 @@ public class PlayerController { // Controller <- Service <- repo(quản lý bở
                 .build();
     }
 
+    //update Player
+    @PostMapping("/update")
+    ApiResponse<PlayerUpdateResponse> updatePlayer(@RequestBody PlayerUpdateRequest request)
+    {
+        return ApiResponse.<PlayerUpdateResponse>builder()
+                .code(100)
+                .message(request.getIngameName() + " update success")
+                .data(playerService.updatePlayer(request))
+                .build();
+    }
+
     //get player by Id
     @GetMapping("/{playerId}")
     ApiResponse<PlayerResponse> getPlayer(@PathVariable("playerId") String playerId)
@@ -59,13 +71,25 @@ public class PlayerController { // Controller <- Service <- repo(quản lý bở
     }
 
     //get player by name
-    @PostMapping("/playerName")
-    ApiResponse<PlayerResponse> getPlayerByName(@RequestBody String playerName)
+    @PostMapping("/playerFirstName")
+    ApiResponse<Object> getPlayerByFName(@RequestBody String playerFirstName)
     {
-        return ApiResponse.<PlayerResponse>builder()
+        List<PlayerResponse> result = playerService.getPlayerByFName(playerFirstName);
+        return ApiResponse.builder()
                 .code(100)
                 .message("Get player success")
-                .data(playerService.getPlayerByName(playerName))
+                .data(result)
+                .build();
+    }
+
+    @PostMapping("/playerLastAndMiddleName")
+    ApiResponse<Object> getPlayerByLName(@RequestBody String playerLastMiddleName)
+    {
+        List<PlayerResponse> result = playerService.getPlayerByLName(playerLastMiddleName);
+        return ApiResponse.builder()
+                .code(100)
+                .message("Get player success")
+                .data(result)
                 .build();
     }
 
@@ -84,8 +108,7 @@ public class PlayerController { // Controller <- Service <- repo(quản lý bở
     @PostMapping("/playerRole")
     ApiResponse<Object> getPlayerByRole(@RequestBody String role)
     {
-        Role inputRole = Role.valueOf(role.toUpperCase());
-        List<TransferPlayerGetAll> result = playerService.getPlayerByRole(inputRole);
+        List<TransferPlayerGetAll> result = playerService.getPlayerByRole(role);
         return ApiResponse.builder()
                 .code(100)
                 .message("Get all player success")

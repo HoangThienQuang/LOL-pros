@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class TournamentPlace {
     @EmbeddedId
     private TournamentPlaceId id;

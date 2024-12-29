@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,9 +14,24 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Player {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // tự động tạo id kiểu tự động tăng
     @Column(name = "playerId", nullable = false, length = 100)
     private String playerId;
+
+    @Transient // tạo một id không lưu vào DB
+    private String prefixed;
+
+    @Transient
+    private Long numericPlayerId;
+
+    @PrePersist //trước khi data được lưu vào DB sẽ thực thi hàm dưới để thêm prefix vào ID
+    @PostLoad
+    public void generateID()
+    {
+        if (this.numericPlayerId != null) {
+            String formattedId = String.format("%04d", this.numericPlayerId);
+            this.playerId = "PL" + formattedId;
+        }
+    }
 
     @Column(name = "ingameName", nullable = false, length = 100)
     private String ingameName;

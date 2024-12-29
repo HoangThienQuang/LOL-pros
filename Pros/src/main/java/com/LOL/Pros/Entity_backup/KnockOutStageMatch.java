@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class KnockOutStageMatch {
     @Id
     @Column(name = "matchId", nullable = false, length = 100)

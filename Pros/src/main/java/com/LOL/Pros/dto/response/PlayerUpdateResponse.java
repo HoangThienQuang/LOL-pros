@@ -1,6 +1,5 @@
-package com.LOL.Pros.dto.transferDTO;
+package com.LOL.Pros.dto.response;
 
-import com.LOL.Pros.Enum.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +11,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransferPlayerGetAll {
+public class PlayerUpdateResponse {
+    private String playerId;
     private String ingameName;
     private String playerFirstName;
     private String playerLastMiddleName;
     private LocalDate dob;
     private String nationality;
     private String role;
-    private String team;
-
+    //private Set<String> playedTeam;
 }

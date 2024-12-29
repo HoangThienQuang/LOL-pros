@@ -1,5 +1,7 @@
 package com.LOL.Pros.dto.response;
 
+import com.LOL.Pros.Entity.RegionalTournament;
+import com.LOL.Pros.Entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +16,5 @@ import java.util.Set;
 public class RegionResponse {
     private String regionName;
     private Set<Team> teams;
-    private Set<DomesticTournament> domesticTournaments;
+    private Set<RegionalTournament> domesticTournaments;
 }

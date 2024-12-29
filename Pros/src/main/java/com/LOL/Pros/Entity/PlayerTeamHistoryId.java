@@ -15,6 +15,7 @@ import java.util.Objects;
 @Embeddable
 public class PlayerTeamHistoryId implements Serializable {
     private static final long serialVersionUID = -2636786497464518721L;
+
     @Column(name = "playerId", nullable = false, length = 100)
     private String playerId;
 

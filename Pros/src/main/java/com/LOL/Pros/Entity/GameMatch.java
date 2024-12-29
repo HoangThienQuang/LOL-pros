@@ -9,8 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"Match\"")
-public class Match {
+public class GameMatch {
     @Id
     @Column(name = "matchId", nullable = false, length = 100)
     private String matchId;

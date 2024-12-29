@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class RegionalTournament {
     @Id
     @Column(name = "tournamentId", nullable = false, length = 100)

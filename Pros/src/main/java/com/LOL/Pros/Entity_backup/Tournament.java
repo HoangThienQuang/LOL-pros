@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 public class Tournament {
     @Id
     @Column(name = "tournamentId", nullable = false, length = 100)

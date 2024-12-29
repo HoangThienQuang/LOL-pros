@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Game {
+public class SingleGame {
     @Id
     @Column(name = "gameId", nullable = false, length = 100)
     private String gameId;
@@ -17,7 +17,7 @@ public class Game {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "matchId", nullable = false)
-    private Match match;
+    private GameMatch gameMatch;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teamWinnerId")

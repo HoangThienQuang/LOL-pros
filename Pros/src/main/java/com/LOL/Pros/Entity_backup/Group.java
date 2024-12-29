@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 @Table(name = "\"Group\"")
 public class Group {
     @Id

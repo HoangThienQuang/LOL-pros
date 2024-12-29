@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TeamUpdateRequest {
     private String teamName;
-    private String sponsors;
     private String captainIngameName;
-    private String playerTeamIngameName;
+//    private String playerTeamIngameName;
     private String region;
 }

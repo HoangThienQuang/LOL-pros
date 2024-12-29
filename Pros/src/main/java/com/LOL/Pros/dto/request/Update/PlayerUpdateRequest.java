@@ -1,6 +1,5 @@
-package com.LOL.Pros.dto.transferDTO;
+package com.LOL.Pros.dto.request.Update;
 
-import com.LOL.Pros.Enum.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransferPlayerGetAll {
+
+public class PlayerUpdateRequest {
     private String ingameName;
     private String playerFirstName;
     private String playerLastMiddleName;
@@ -20,5 +20,4 @@ public class TransferPlayerGetAll {
     private String nationality;
     private String role;
     private String team;
-
 }

@@ -12,7 +12,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class TransferPlayerTeam {
-    private String playerName;
+    private String firstName;
+    private String lastName;
     private String teamName;
     private LocalDate startDate;
     private LocalDate endDate;

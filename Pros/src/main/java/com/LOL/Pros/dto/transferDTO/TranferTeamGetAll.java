@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 public class TranferTeamGetAll {
     private String teamName;
-    private Set<String> sponsors;
+    //    private Set<String> sponsors;
     private String captainName;
     private List<TransferPlayerTeam> teamPlayer;
 }

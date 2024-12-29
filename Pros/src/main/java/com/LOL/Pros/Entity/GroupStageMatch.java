@@ -15,13 +15,13 @@ public class GroupStageMatch {
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "matchId", nullable = false)
-    private Match match;
+    private GameMatch gameMatch;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "groupId", nullable = false)
-    private Group group;
+    private TournamentGroup tournamentGroup;
 
     @Column(name = "isTieBreak")
-    private byte[] isTieBreak;
+    private Boolean isTieBreak;
 
 }
